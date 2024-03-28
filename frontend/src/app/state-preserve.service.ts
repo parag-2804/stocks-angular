@@ -12,7 +12,7 @@ export class StatePreserveService {
       this.tickerSymbol = value
     });
   }
-  //Lolly
+  
 
   insertData(data: string) {
     console.log("Indide inset data");

@@ -15,24 +15,24 @@
   <div class="main-container row justify-content-center mx-0" *ngIf="!spinner">
     <div class="alerts_main d-flex justify-content-center col-md-12 row">
       <div class="alert-wishlist col-12 col-md-8" *ngIf="addMessage" (close)="addMessage = ''">
-        <ngb-alert #alert class="text-center" type="success" [dismissible]="false">{{companyDescription.ticker}} added
+        <ngb-alert #alert class="text-center" type="success" [dismissible]="false">{{companyDesc.ticker}} added
           to
           Watchlist<i class="bi bi-x" style="float:right; color: #155724; font-size: 20px;"
             (click)="addMessage = ''"></i></ngb-alert>
       </div>
       <div class="alert-wishlist col-12 col-md-8" *ngIf="removeMessage" (close)="removeMessage = ''">
-        <ngb-alert #alert class="text-center" type="danger" [dismissible]="false">{{companyDescription.ticker}} removed
+        <ngb-alert #alert class="text-center" type="danger" [dismissible]="false">{{companyDesc.ticker}} removed
           to
           Watchlist<i class="bi bi-x" style="float:right; color: #721c24; font-size: 20px;"
             (click)="removeMessage = ''"></i></ngb-alert>
       </div>
       <div class="alert-wishlist col-12 col-md-8" *ngIf="buyMessage" (close)="buyMessage = ''">
-        <ngb-alert #alert class="text-center" type="success" [dismissible]="false">{{companyDescription.ticker}} bought
+        <ngb-alert #alert class="text-center" type="success" [dismissible]="false">{{companyDesc.ticker}} bought
           successfully<i class="bi bi-x" style="float:right; color: #155724; font-size: 20px;"
             (click)="buyMessage = ''"></i></ngb-alert>
       </div>
       <div class="alert-wishlist col-12 col-md-8" *ngIf="sellMessage" (close)="sellMessage = ''">
-        <ngb-alert #alert class="text-center" type="danger" [dismissible]="false">{{companyDescription.ticker}} sold
+        <ngb-alert #alert class="text-center" type="danger" [dismissible]="false">{{companyDesc.ticker}} sold
           successfully<i class="bi bi-x" style="float:right; color: #721c24; font-size: 20px;"
             (click)="sellMessage = ''"></i></ngb-alert>
       </div>
@@ -53,14 +53,14 @@
 
     <!-- Div starts for Ticker Description and Image -->
     <div class="mb-4 col-12 d-flex flex-column align-items-center justify-content-center">
-      <div class="company-details col-12 col-md-8 d-flex justify-content-center" *ngIf="companyDescription">
+      <div class="company-details col-12 col-md-8 d-flex justify-content-center" *ngIf="companyDesc">
         <div class="col-4 col-md-4 d-flex flex-column align-items-start justify-content-start px-0">
-          <div class="company-ticker d-flex align-items-end mb-2">{{companyDescription.ticker}} <div
+          <div class="company-ticker d-flex align-items-end mb-2">{{companyDesc.ticker}} <div
               class="star-icon pl-1" (click)="addToWatchlist()"><i class="bi bi-star" *ngIf="display_star"></i><i
                 class="bi bi-star-fill" style="color: gold" *ngIf="display_filled_star"></i></div>
           </div>
-          <div class="company-name mb-1">{{companyDescription.name}}</div>
-          <div class="company-exchange">{{companyDescription.exchange}}</div>
+          <div class="company-name mb-1">{{companyDesc.name}}</div>
+          <div class="company-exchange">{{companyDesc.exchange}}</div>
           <div class="d-flex">
             <button type="button" class="btn btn-success mt-2 mr-2" *ngIf="buy_button"
               (click)="openPortfolioBuy(portfolioModalBuy,'buy')">Buy</button>
@@ -72,7 +72,7 @@
         </div>
         <div
           class="company-logo col-4 col-md-4 text-center d-flex flex-column align-items-center justify-content-start">
-          <img src="{{companyDescription.logo}}" style="height:90px; width: 90px;" class="comp-logo">
+          <img src="{{companyDesc.logo}}" style="height:90px; width: 90px;" class="comp-logo">
         </div>
         <div class="stock-details col-4 col-md-4 d-flex flex-column align-items-end justify-content-start px-0"
           *ngIf="stockPrice">
@@ -137,16 +137,16 @@
                 <div class="about-data">
                   <div class="about mb-1">
                     <span class="about-value"><b>IPO Start Date: </b></span>{{
-                    companyDescription.ipo }}
+                    companyDesc.ipo }}
                   </div>
                   <div class="about mb-1">
                     <span class="about-value"><b>Industry: </b></span>{{
-                    companyDescription.finnhubIndustry }}
+                    companyDesc.finnhubIndustry }}
                   </div>
                   <div class="about mb-1">
-                    <span class="about-value"><b>Webpage: </b></span><a href="{{ companyDescription.weburl }}"
+                    <span class="about-value"><b>Webpage: </b></span><a href="{{ companyDesc.weburl }}"
                       target="_blank">{{
-                      companyDescription.weburl }}</a>
+                      companyDesc.weburl }}</a>
                   </div>
                   <div class="about mb-1">
                     <span class="about-value"><b>Company peers: </b></span>
@@ -229,7 +229,7 @@
                 <table>
                   <tr class="insider-tab-row insider-color-grey">
                     <td class="insider-col1 px-5" ><strong>
-                      {{ companyDescription.name }}</strong>
+                      {{ companyDesc.name }}</strong>
                     </td>
                     <td class="insider-col2 px-5"><strong>MSPR</strong></td>
                     <td class="insider-col2 px-5"><strong>Change</strong></td>

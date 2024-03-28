@@ -13,7 +13,7 @@ export class WatchlistComponent implements OnInit {
   // compDesc : any = [];
   // latestPrice : any = [];
   countItem: any = 0;
-  companyDescription: any;
+  companyDesc: any;
   stockPrice : any;
 
   constructor(private httpService: HttpService,private router: Router) { }
@@ -41,10 +41,10 @@ export class WatchlistComponent implements OnInit {
     console.log(item);
 
 
-    this.httpService.getData('companyDescription', item).subscribe(res => {
-      this.companyDescription = res;
-      ticker = this.companyDescription.ticker;
-        name = this.companyDescription.name;
+    this.httpService.getData('companyDesc', item).subscribe(res => {
+      this.companyDesc = res;
+      ticker = this.companyDesc.ticker;
+        name = this.companyDesc.name;
 
         this.httpService.getData('stockPrice', item).subscribe(res => {
           this.stockPrice = res;

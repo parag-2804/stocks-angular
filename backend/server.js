@@ -15,7 +15,7 @@ const Polygonkey = process.env.POLYGON_KEY;
 app.use(cors());
 
 
-app.get('/companyDescription', async function (req, res) {
+app.get('/companyDesc', async function (req, res) {
     try {
         const { ticker } = req.query;
         const response = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FinnhubKey}`);

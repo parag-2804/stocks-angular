@@ -22,7 +22,7 @@ import {
   faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { debounceTime } from 'rxjs/operators';
-//Lolly
+
 import { Router } from '@angular/router';
 import IndicatorCore from 'highcharts/indicators/indicators';
 import vbp from 'highcharts/indicators/volume-by-price';
@@ -32,7 +32,7 @@ StockModule(Highcharts);
 HStockModule(Highcharts);
 IndicatorCore(Highcharts);
 vbp(Highcharts);
-//Lolly
+
 
 // import { ViewChild } from '@angular/core';
 // import { ModalNewsComponent } from '../modal-news/modal-news.component';
@@ -76,7 +76,7 @@ export class SearchDetailsComponent implements OnInit {
 
   // latestStockPrice = false;
 
-  //lolly
+  
 
   // @ViewChild(ModalNewsComponent) newsModal : any;
 
@@ -84,7 +84,7 @@ export class SearchDetailsComponent implements OnInit {
   @Input('tickerSymbol') tickerSymbol = '';
   @Output() getResponse = new EventEmitter();
   private route1Path: any = [];
-  public companyDescription: any = [];
+  public companyDesc: any = [];
   public historicalData: any = [];
   public stockPrice: any = [];
   public autoComplete: any = [];
@@ -124,7 +124,7 @@ export class SearchDetailsComponent implements OnInit {
     negativeChange: 0,
   };
 
-  //Lolly
+  
   public showMainChart = false;
   change_percent = false;
   market_open = false;
@@ -143,7 +143,7 @@ export class SearchDetailsComponent implements OnInit {
   stockBuy = false;
   stockLeft: any;
   spinner = false;
-  //Lolly
+  
 
   constructor(
     private http: HttpClient,
@@ -202,7 +202,7 @@ export class SearchDetailsComponent implements OnInit {
   }
 
   alertMessageDisplay() {
-    //Lolly
+    
     this._buySuccess.subscribe((message) => (this.buyMessage = message));
     this._buySuccess
       .pipe(debounceTime(50000))
@@ -227,12 +227,12 @@ export class SearchDetailsComponent implements OnInit {
 
     let money: any = localStorage.getItem('moneyInWallet');
     this.moneyInWallet = localStorage.getItem('moneyInWallet'); //parseFloat(money);
-    //Lolly
+    
   }
 
   fetchAPICombined() {
-    let companyDescription = this.httpService.getData(
-      'companyDescription',
+    let companyDesc = this.httpService.getData(
+      'companyDesc',
       this.tickerSymbol
     );
     let latestStockPrice = this.httpService.getData(
@@ -269,7 +269,7 @@ export class SearchDetailsComponent implements OnInit {
     this.spinner = true;
 
     // combineLatest(comp_desc, latest_stock_p, comp_peer, hist_chart, news_data, comp_recomm, comp_social, comp_earn).subscribe(([res1, res2, res3, res4, res5, res6, res7, res8]: [any, any, any, any, any, any, any, any]) => {
-    //   this.companyDescription = res1;
+    //   this.companyDesc = res1;
     //   // this.display_star = true;
     //   this.buy_button = true;
 
@@ -311,12 +311,12 @@ export class SearchDetailsComponent implements OnInit {
     this.spinner = true;
 
     this.httpService
-      .getData('companyDescription', this.tickerSymbol)
+      .getData('companyDesc', this.tickerSymbol)
       .subscribe((res) => {
-        this.companyDescription = res;
-        console.log('companyDescription> ' + JSON.stringify(res));
+        this.companyDesc = res;
+        console.log('companyDesc> ' + JSON.stringify(res));
         this.spinner = false;
-        if (Object.keys(this.companyDescription).length === 0) {
+        if (Object.keys(this.companyDesc).length === 0) {
           this.invalidTicker = true;
         } else {
           this.invalidTicker = false;
@@ -339,7 +339,7 @@ export class SearchDetailsComponent implements OnInit {
           this.stockPrice = res;
           this.Current_Price = this.stockPrice.c;
 
-          //Lolly
+          
           this.timeManipulation();
           console.log(
             'unixDatess>> ' + this.unix_date_6 + '  ' + this.unix_date
@@ -365,7 +365,7 @@ export class SearchDetailsComponent implements OnInit {
           //     this.historySummaryCharts();
           //     this.showChart = true;
           //   });
-          //Lolly
+          
         });
       // this.httpService.getData('autoComplete', this.tickerSymbol).subscribe(res => { this.autoComplete = res; console.log('bbb') });
       this.httpService
@@ -407,9 +407,9 @@ export class SearchDetailsComponent implements OnInit {
 
     this.fetchSubscribe = timer(0, 15000).subscribe(() => {
       this.httpService
-        .getData('companyDescription', this.tickerSymbol)
+        .getData('companyDesc', this.tickerSymbol)
         .subscribe((res) => {
-          this.companyDescription = res;
+          this.companyDesc = res;
         });
       // this.display_star = true;
       // this.buy_button = true;
@@ -418,7 +418,7 @@ export class SearchDetailsComponent implements OnInit {
         .subscribe((res) => {
           this.stockPrice = res;
           this.Current_Price = this.stockPrice.c;
-          //Lolly
+          
           // this.timeManipulation();
 
           // this.httpService.getHourlyData(this.tickerSymbol)
@@ -441,7 +441,7 @@ export class SearchDetailsComponent implements OnInit {
           //     this.historySummaryCharts();
           //     this.showChart = true;
           //   });
-          //Lolly
+          
         
         
 
@@ -558,7 +558,7 @@ export class SearchDetailsComponent implements OnInit {
     }
   }
 
-  //Lolly
+  
   peerCall(peer: any) {
     // console.log(peer);
 
@@ -589,7 +589,7 @@ export class SearchDetailsComponent implements OnInit {
       ':' +
       (this.curr_time.getSeconds() < 10 ? '0' : '') +
       this.curr_time.getSeconds();
-    // if (this.companyDescription && this.companyDescription.ticker) {
+    // if (this.companyDesc && this.companyDesc.ticker) {
     //   this.display_star = true;
 
     // }
@@ -615,7 +615,7 @@ export class SearchDetailsComponent implements OnInit {
     }
   }
 
-  //Lolly
+  
 
   // loadValuesForInsider(insiderSent: any) {
   //   let redditVals = insiderSent.reddit;
@@ -763,7 +763,7 @@ loadValuesForInsider(insiderData: any) {
     // this.dataForRecomm.push(buy);
   }
 
-  //Lolly
+  
   openPortfolioBuy(portfolioModalBuy: any, stockDeal: any) {
     if (stockDeal === 'buy') {
       this.stockBuy = true;
@@ -812,7 +812,7 @@ loadValuesForInsider(insiderData: any) {
       );
   }
 
-  //Lolly
+  
 
   chartForRecommendation() {
     //TBD: legend in 1line, remove total , date in straight way
@@ -1287,9 +1287,9 @@ loadValuesForInsider(insiderData: any) {
     };
     this.showChart = true;
   }
-  //Lolly
+  
 
-  //Lolly
+  
   getWatchlist() {
     // console.log(this.inputEnteredTicker);
     // console.log(localStorage.getItem(this.inputEnteredTicker));
@@ -1322,7 +1322,7 @@ loadValuesForInsider(insiderData: any) {
       localStorage.removeItem(this.tickerSymbol + '-Watchlist');
     }
   }
-  //Lolly
+  
 
   ngOnDestroy() {
     this.fetchSubscribe.unsubscribe();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '../shared/http.service';
-import { Subject, combineLatest } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-portfolio',
@@ -9,14 +9,12 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
-  moneyInWallet: any;  //TBD ; change moneyLeft to this
-  // alertPortfolio: any;
+  moneyInWallet: any;
   public closeResult: string = '';
   isBuyStock = false;
   stockPrice: any;
-  companyDescription: any;
+  companyDesc: any;
   tickerSymbol: string = '';
-  // portfolioStockData: any =[];
   portfolioStockDataMap = new Map();
   tickerVal = ''
   currentStockModal = '';
@@ -25,12 +23,10 @@ export class PortfolioComponent implements OnInit {
   cName: any;
   changeInPort = 0;
 
-  //Lolly
   private _buySuccess = new Subject<string>();
   private _sellSuccess = new Subject<string>();
   buyMessage = '';
   sellMessage = '';
-  // moneyLeft: any;
   alertPortfolio = false;
   stockBuy: any = false;
   public closeModal: string = '';
@@ -38,14 +34,10 @@ export class PortfolioComponent implements OnInit {
   enteredQuantity: number = 0;
   enteredQuantitySell: number = 0;
   totalPrice: string = "0.00";
-  // Current_Price: any;
   removePortfolio = false;
-  // name: any = "";
   stockLeft: any;
   portfolio_add: any;
   portfolio_remove: any;
-  //Lolly
-  // portfolioStocks = ['TSLA' : 5, 'AAPL' :2];
 
   constructor(private modalService: NgbModal, private httpService: HttpService) { }
 
@@ -95,7 +87,7 @@ export class PortfolioComponent implements OnInit {
   loadPortfolioStockData() {
     Object.keys(localStorage).forEach(data => {
       if (data.includes('-Portfolio')) {
-        // this.companyDescription = [];
+        // this.companyDesc = [];
         this.stockPrice = [];
         this.countItem += 1;
         let item: any = localStorage.getItem(data);
@@ -105,23 +97,23 @@ export class PortfolioComponent implements OnInit {
         if (itemParsed.qty != null && itemParsed.amount != null) {
           console.log('ssssssss');
           console.log('JSON.parse(item).ticker>' + JSON.parse(item).ticker);
-          this.httpService.getData('companyDescription', itemParsed.ticker).subscribe(res => {
-            this.companyDescription = res;
+          this.httpService.getData('companyDesc', itemParsed.ticker).subscribe(res => {
+            this.companyDesc = res;
             console.log('resMe> '+JSON.stringify(res));
-            this.cName = this.companyDescription.name;
-            console.log('resMe> '+this.companyDescription.name);
+            this.cName = this.companyDesc.name;
+            console.log('resMe> '+this.companyDesc.name);
 
-            console.log('this.companyDescriptionMap>' + JSON.stringify(this.companyDescription));
+            console.log('this.companyDescMap>' + JSON.stringify(this.companyDesc));
             this.httpService.getData('stockPrice', JSON.parse(item).ticker).subscribe(res => {
-              console.log('resYouu> '+this.companyDescription.name);
+              console.log('resYouu> '+this.companyDesc.name);
               let tickerVal = itemParsed.ticker;
               let quantity = itemParsed.qty;
               let amt = itemParsed.amount;
               this.stockPrice = res;
               this.stockPriceC = this.stockPrice.c;
-              this.cName = this.companyDescription.name;
+              this.cName = this.companyDesc.name;
               this.changeInPort = Math.round(((this.stockPriceC - amt / quantity) + Number.EPSILON) * 100) / 100;
-              console.log('this.companyDescriptionMapMEE>' + this.cName);
+              console.log('this.companyDescMapMEE>' + this.cName);
               this.portfolioStockDataMap.set(tickerVal, {
                 tickerVal: tickerVal,
                 companyName: this.cName,
@@ -133,7 +125,7 @@ export class PortfolioComponent implements OnInit {
               });
 
               console.log('portfolioStockDataMapAA>>' + (JSON.stringify(this.portfolioStockDataMap.get(tickerVal))));
-              // console.log('portfolioStockDataMapAA>>' + (JSON.stringify(this.portfolioStockDataMap.get('TSLA'))));
+              
             });
           });
 
@@ -156,7 +148,7 @@ export class PortfolioComponent implements OnInit {
       this.stockBuy = false;
     }
     this.tickerSymbol = val_port;
-    // this.tickerSymbol = val_port.ticker;
+    
     let money: any = localStorage.getItem('moneyInWallet')
     this.moneyInWallet = parseFloat(money);
 
@@ -175,7 +167,7 @@ export class PortfolioComponent implements OnInit {
     else {
       this.stockBuy = false;
     }
-    // this.tickerSymbol = val_port.ticker;
+    
     this.tickerSymbol = val_port;
     let money: any = localStorage.getItem('moneyInWallet')
     this.moneyInWallet = parseFloat(money);
@@ -201,8 +193,11 @@ export class PortfolioComponent implements OnInit {
     }
   }
 
+
+
+
   buyStock(tickerSymbol: any) {
-    // this.modal.close(this.portfolioModal)
+    
     this._buySuccess.next('Message successfully changed.');
     this.portfolio_add = true;
     this.tickerSymbol = tickerSymbol;
@@ -213,8 +208,7 @@ export class PortfolioComponent implements OnInit {
       let wallet: any = parseFloat(val);
       wallet = wallet - total;
       localStorage.setItem('moneyInWallet', wallet.toFixed(2).toString());
-      // console.log(wallet);
-      // if((localStorage.getItem(this.inputEnteredTicker+"-Portfolio"))){
+    
       if (localStorage.getItem(this.tickerSymbol + "-Portfolio")) {
         console.log(this.tickerSymbol)
         let stockValJson: any = localStorage.getItem(this.tickerSymbol + "-Portfolio");
@@ -226,7 +220,6 @@ export class PortfolioComponent implements OnInit {
         console.log(total);
         console.log('lolly> ' + total + 'stockVal>   ' + JSON.stringify(stockVal));
         localStorage.setItem(this.tickerSymbol + "-Portfolio", JSON.stringify({ "ticker": this.tickerSymbol, "qty": quantity, "amount": total }))
-        // this.changeInPort = this.stockPriceC-total/quantity;
         this.changeInPort = Math.round(((this.stockPriceC - total / quantity) + Number.EPSILON) * 100) / 100;
         let portfolData = this.portfolioStockDataMap.get(this.tickerSymbol);
         this.cName = portfolData.companyName;
@@ -261,16 +254,16 @@ export class PortfolioComponent implements OnInit {
       localStorage.setItem('moneyInWallet', wallet.toFixed(2).toString());
       let stockValJson: any = localStorage.getItem(this.tickerSymbol + "-Portfolio");
       let stockVal = JSON.parse(stockValJson);
-      // let quantity = this.enteredQuantitySell + stockVal.quantity;
+      
       let quantity = stockVal.qty - this.enteredQuantitySell;
       total = stockVal.amount - total
       localStorage.setItem(this.tickerSymbol + "-Portfolio", JSON.stringify({ "ticker": this.tickerSymbol, "qty": quantity, "amount": total }))
       //To update the cards
       stockValJson = localStorage.getItem(this.tickerSymbol + "-Portfolio");
       stockVal = JSON.parse(stockValJson);
-      // this.changeInPort = this.stockPriceC-total/stockQ;
+      
       this.changeInPort = Math.round(((this.stockPriceC - total / quantity) + Number.EPSILON) * 100) / 100;
-      // this.fetchPortfolio(stockVal);
+      
 
       if (quantity > 0) {
         let portfolData = this.portfolioStockDataMap.get(this.tickerSymbol);
@@ -285,11 +278,11 @@ export class PortfolioComponent implements OnInit {
         })
       }
       else {
-        // this.sell_button = false;
+        
         this.removePortfolio = true;
         localStorage.removeItem(this.tickerSymbol + "-Portfolio")
         this.portfolioStockDataMap.delete(this.tickerSymbol)
-        // this.alertPortfolio = true;
+        
 
       }
       if (this.portfolioStockDataMap.size === 0) {

@@ -8,14 +8,12 @@ import { StatePreserveService } from '../state-preserve.service';
 })
 export class NavBarComponent implements OnInit {
   public data: string = '';
-  // is
   constructor(private statePreseve: StatePreserveService) { }
 
   ngOnInit(): void {
 
     this.statePreseve.tickerSymbolSubject.subscribe(res => {
       this.data = res;
-      console.log('state>> ',res);
     }
     )
   }

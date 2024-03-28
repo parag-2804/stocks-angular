@@ -7,11 +7,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <!-- <a class="nav-link mx-2" routerLink="/search/home" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }">Search</a> -->
-                <a class="nav-link mx-2" *ngIf="!data" routerLink="/search/home">Search</a>
-                <a class="nav-link mx-2" *ngIf="data" routerLinkActive="activeLink"
-                    routerLink="/search/{{data}}">Search</a>
+                <a class="nav-link mx-2" [routerLink]="data ? '/search/' + data : '/search/home'"
+                   [ngClass]="{'activeLink': data}">Search</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link mx-2" routerLink="/watchlist" routerLinkActive="active">Watchlist</a>
