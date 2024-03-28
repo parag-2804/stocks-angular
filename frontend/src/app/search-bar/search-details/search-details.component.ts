@@ -21,7 +21,7 @@ import {
   faTwitter,
   faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons';
-import { debounceTime, combineLatest } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 //Lolly
 import { Router } from '@angular/router';
 import IndicatorCore from 'highcharts/indicators/indicators';
@@ -73,6 +73,7 @@ export class SearchDetailsComponent implements OnInit {
   buy_button = false;
   sell_button = false;
   fetchSubscribe: any;
+
   // latestStockPrice = false;
 
   //lolly
@@ -89,30 +90,39 @@ export class SearchDetailsComponent implements OnInit {
   public autoComplete: any = [];
   public companyNews: any = [];
   public recommendation: any = [];
-  public socialSentiment: any = [];
+  public insiderSentiment: any = [];
   public companyPeers: any = [];
   public companyEarnings: any = [];
-  public totalMentionRed = 0;
-  public positiveMentionRed = 0;
-  public negativeMentionRed = 0;
-  public totalMentionTwit = 0;
-  public positiveMentionTwit = 0;
-  public negativeMentionTwit = 0;
+  // public totalMentionRed = 0;
+  // public positiveMentionRed = 0;
+  // public negativeMentionRed = 0;
+  // public totalMentionTwit = 0;
+  // public positiveMentionTwit = 0;
+  // public negativeMentionTwit = 0;
   private periodForRecomm: any = [];
   private dataForRecomm: any = [];
   private epsSurpriseDataX: any = [];
   private epsSurpriseDataY: any = [];
   public newsData20: any = [];
   public newLenCard = 10;
-  public historicDataSummary: any;
+  //public historicDataSummary: any;
+  public hourlydata: any = [];
   isChartLoaded = false;
   isChartLoadedHistorical = false;
   isNewsLoaded = false;
   public closeResult: string = '';
   public currentNews: any;
-  public historicalCharts: any;
+  public mainChartData: any = [];
   moneyInWallet: any;
   marketMessage = 'Market is Closed';
+  public aggregatedInsiderData: any = {
+    totalMspr: 0,
+    positiveMspr: 0,
+    negativeMspr: 0,
+    totalChange: 0,
+    positiveChange: 0,
+    negativeChange: 0,
+  };
 
   //Lolly
   public showMainChart = false;
@@ -235,22 +245,23 @@ export class SearchDetailsComponent implements OnInit {
     );
 
     this.timeManipulation();
-    let historicData = this.httpService.getDataHistoric(
-      'historicalDataSummary',
-      this.tickerSymbol,
-      this.unix_date_6,
-      this.unix_date
-    );
+
+    // let historicData = this.httpService.getDataHistoric(
+    //   'historicalDataSummary',
+    //   this.tickerSymbol,
+    //   this.unix_date_6,
+    //   this.unix_date
+    // );
 
     let newsData = this.httpService.getData('companyNews', this.tickerSymbol);
     let companyRecomm = this.httpService.getData(
       'recommendation',
       this.tickerSymbol
     );
-    let comanySocial = this.httpService.getData(
-      'socialSentiment',
-      this.tickerSymbol
-    );
+    // let companyInsider = this.httpService.getData(
+    //   'insiderSentiment',
+    //   this.tickerSymbol
+    // );
     let earnings = this.httpService.getData(
       'companyEarnings',
       this.tickerSymbol
@@ -274,8 +285,8 @@ export class SearchDetailsComponent implements OnInit {
 
     //   this.companyPeers = res3;
 
-    //   this.historicalCharts = res4;
-    //   this.historyMainCharts();
+    //   this.mainChartData = res4;
+    //   this.mainChart();
 
     //   this.companyNews = res5;
     //   this.loadNews();
@@ -286,7 +297,7 @@ export class SearchDetailsComponent implements OnInit {
     //   this.isRecommChartLoaded = true
     //   this.recommendationCharts()
 
-    //   this.companySocialSentiments = res7;
+    //   this.companyinsiderSentiments = res7;
     //   this.addSociaSentiments();
 
     //   this.companyEarnings = res8;
@@ -313,14 +324,12 @@ export class SearchDetailsComponent implements OnInit {
         }
       });
     if (!this.invalidTicker) {
-      this.httpService
-        .getData('historicalData', this.tickerSymbol)
+      this.httpService.getMainChartData(this.tickerSymbol)
         .subscribe((res) => {
-          // console.log('historicalData> ' + JSON.stringify(res));
-          this.historicalCharts = res;
+          console.log('historicalData> ' + JSON.stringify(res));
+          this.mainChartData = res;
           this.showMainChart = true;
-          console.log('companyDescription> ');
-          this.historyMainCharts();
+          this.mainChart();
         });
 
       // this.httpService.getData('stockPrice', this.tickerSymbol).subscribe(res => console.log(JSON.stringify(res)));
@@ -335,18 +344,27 @@ export class SearchDetailsComponent implements OnInit {
           console.log(
             'unixDatess>> ' + this.unix_date_6 + '  ' + this.unix_date
           );
-          this.httpService
-            .getDataHistoric(
-              'historicalDataSummary',
-              this.tickerSymbol,
-              this.unix_date_6,
-              this.unix_date
-            )
-            .subscribe((res) => {
-              this.historicDataSummary = res;
-              this.historySummaryCharts();
-              this.showChart = true;
-            });
+
+          this.httpService.getHourlyData(this.tickerSymbol)
+          .subscribe((res) => {
+          console.log("Testttttt", res)
+          this.hourlydata = res;
+          this.showChart = true
+          this.hourlyChart();
+          })
+
+          // this.httpService
+          //   .getDataHistoric(
+          //     'historicalDataSummary',
+          //     this.tickerSymbol,
+          //     this.unix_date_6,
+          //     this.unix_date
+          //   )
+          //   .subscribe((res) => {
+          //     this.historicDataSummary = res;
+          //     this.historySummaryCharts();
+          //     this.showChart = true;
+          //   });
           //Lolly
         });
       // this.httpService.getData('autoComplete', this.tickerSymbol).subscribe(res => { this.autoComplete = res; console.log('bbb') });
@@ -366,11 +384,10 @@ export class SearchDetailsComponent implements OnInit {
           this.isChartLoaded = true;
           this.chartForRecommendation();
         });
-      this.httpService
-        .getData('socialSentiment', this.tickerSymbol)
+      this.httpService.getInsiderData(this.tickerSymbol)
         .subscribe((res) => {
-          this.socialSentiment = res;
-          this.loadValuesForSocial(this.socialSentiment);
+          this.insiderSentiment = res;
+          this.loadValuesForInsider(this.insiderSentiment);
         });
       this.httpService
         .getData('companyPeers', this.tickerSymbol)
@@ -402,21 +419,33 @@ export class SearchDetailsComponent implements OnInit {
           this.stockPrice = res;
           this.Current_Price = this.stockPrice.c;
           //Lolly
-          this.timeManipulation();
-          this.httpService
-            .getDataHistoric(
-              'historicalDataSummary',
-              this.tickerSymbol,
-              this.unix_date_6,
-              this.unix_date
-            )
-            .subscribe((res) => {
-              this.historicDataSummary = res;
-              this.historySummaryCharts();
-              this.showChart = true;
-            });
+          // this.timeManipulation();
+
+          // this.httpService.getHourlyData(this.tickerSymbol)
+          // .subscribe((res) => {
+          // //console.log("Testttttt", res)
+          // this.hourlydata = res;
+          // this.showChart = true;
+          // this.hourlyChart();
+
+          // });
+          // this.httpService
+          //   .getDataHistoric(
+          //     'historicalDataSummary',
+          //     this.tickerSymbol,
+          //     this.unix_date_6,
+          //     this.unix_date
+          //   )
+          //   .subscribe((res) => {
+          //     this.historicDataSummary = res;
+          //     this.historySummaryCharts();
+          //     this.showChart = true;
+          //   });
           //Lolly
-        });
+        
+        
+
+        })
     });
   }
 
@@ -588,20 +617,60 @@ export class SearchDetailsComponent implements OnInit {
 
   //Lolly
 
-  loadValuesForSocial(socialSent: any) {
-    let redditVals = socialSent.reddit;
-    let twitterVal = socialSent.twitter;
-    for (let i = 0; i < redditVals.length; i++) {
-      this.totalMentionRed += redditVals[i].mention;
-      this.positiveMentionRed += redditVals[i].positiveMention;
-      this.negativeMentionRed += redditVals[i].negativeMention;
+  // loadValuesForInsider(insiderSent: any) {
+  //   let redditVals = insiderSent.reddit;
+  //   let twitterVal = insiderSent.twitter;
+  //   for (let i = 0; i < redditVals.length; i++) {
+  //     this.totalMentionRed += redditVals[i].mention;
+  //     this.positiveMentionRed += redditVals[i].positiveMention;
+  //     this.negativeMentionRed += redditVals[i].negativeMention;
+  //   }
+  //   for (let i = 0; i < twitterVal.length; i++) {
+  //     this.totalMentionTwit += twitterVal[i].mention;
+  //     this.positiveMentionTwit += twitterVal[i].positiveMention;
+  //     this.negativeMentionTwit += twitterVal[i].negativeMention;
+  //   }
+  // }
+// Assuming that `this.insiderSentiment` is an array with the same structure as the API response
+
+loadValuesForInsider(insiderData: any) {
+  // Resetting aggregated values
+  this.aggregatedInsiderData = {
+    totalMspr: 0,
+    positiveMspr: 0,
+    negativeMspr: 0,
+    totalChange: 0,
+    positiveChange: 0,
+    negativeChange: 0,
+  };
+  const data = insiderData.data;
+
+  // Loop through the array of insider sentiments and aggregate values
+  data.forEach((sentiment: any) => {
+    const mspr = sentiment.mspr;
+    const change = sentiment.change;
+
+    this.aggregatedInsiderData.totalMspr += mspr;
+    this.aggregatedInsiderData.totalChange += change;
+
+    if (mspr > 0) {
+      this.aggregatedInsiderData.positiveMspr += mspr;
+    } else if (mspr < 0) {
+      this.aggregatedInsiderData.negativeMspr += mspr;
     }
-    for (let i = 0; i < twitterVal.length; i++) {
-      this.totalMentionTwit += twitterVal[i].mention;
-      this.positiveMentionTwit += twitterVal[i].positiveMention;
-      this.negativeMentionTwit += twitterVal[i].negativeMention;
+
+    if (change > 0) {
+      this.aggregatedInsiderData.positiveChange += change;
+    } else if (change < 0) {
+      this.aggregatedInsiderData.negativeChange += change;
     }
-  }
+  });
+  Object.keys(this.aggregatedInsiderData).forEach(key => {
+    this.aggregatedInsiderData[key] = parseFloat(this.aggregatedInsiderData[key].toFixed(2));
+  });
+
+}
+
 
   loadDataForNews(newsVal: any) {
     this.newsData20 = [];
@@ -936,12 +1005,12 @@ export class SearchDetailsComponent implements OnInit {
       series: [
         {
           name: 'Actual',
-          type: 'line',
+          type: 'spline',
           data: this.epsSurpriseDataY[0],
         },
         {
           name: 'Estimate',
-          type: 'line',
+          type: 'spline',
           data: this.epsSurpriseDataY[1],
         },
       ],
@@ -965,10 +1034,10 @@ export class SearchDetailsComponent implements OnInit {
     };
   }
 
-  //Lolly
-  historyMainCharts() {
+  
+  mainChart() {
     // split the data set into ohlc and volume
-    // console.log(this.historicalCharts);
+    // console.log(this.mainChartData);
     let ohlc = [],
       volume = [];
 
@@ -981,18 +1050,18 @@ export class SearchDetailsComponent implements OnInit {
       ['month', [1, 2, 3, 4, 6]],
     ];
 
-    for (var i = 0; i < this.historicalCharts['c'].length; i++) {
+    for (var i = 0; i < this.mainChartData.results.length; i++) {
       ohlc[i] = [
-        this.historicalCharts['t'][i] * 1000,
-        this.historicalCharts['o'][i],
-        this.historicalCharts['h'][i],
-        this.historicalCharts['l'][i],
-        this.historicalCharts['c'][i],
+        this.mainChartData.results[i]['t'],
+        this.mainChartData.results[i]['o'],
+        this.mainChartData.results[i]['h'],
+        this.mainChartData.results[i]['l'],
+        this.mainChartData.results[i]['c'],
       ];
 
       volume[i] = [
-        this.historicalCharts['t'][i] * 1000,
-        this.historicalCharts['v'][i],
+        this.mainChartData.results[i]['t'],
+        this.mainChartData.results[i]['v'],
         // data[i][0], // the date
         // data[i][5] // the volume
       ];
@@ -1161,21 +1230,21 @@ export class SearchDetailsComponent implements OnInit {
     console.log(this.showMainChart);
   }
 
-  historySummaryCharts() {
+  hourlyChart() {
     var list1 = [];
 
-    for (var i = 0; i < this.historicDataSummary['c'].length; i++) {
+    for (var i = 0; i < this.hourlydata.results.length; i++) {
       var tempList1 = [
-        this.historicDataSummary['t'][i] * 1000,
-        this.historicDataSummary['c'][i],
+        this.hourlydata.results[i]['t'], // Adjusted to access 't' correctly
+        this.hourlydata.results[i]['c'],        // Adjusted to access 'c' correctly
       ];
-      list1[i] = tempList1;
+      list1.push(tempList1); // Using push is more idiomatic here
     }
 
     Highcharts.setOptions({
-      time: {
-        timezoneOffset: 7 * 60,
-      },
+      // time: {
+      //   timezoneOffset: 7 * 60,
+      // },
     });
 
     this.chartOptionsSummary = {
@@ -1197,9 +1266,7 @@ export class SearchDetailsComponent implements OnInit {
       ],
       xAxis: [
         {
-          scrollbar: {
-            enabled: true,
-          },
+      
           type: 'datetime',
 
           title: {
@@ -1212,6 +1279,9 @@ export class SearchDetailsComponent implements OnInit {
           data: list1,
           type: 'line',
           color: this.change_percent ? '#28a745' : '#de3345',
+          marker: {
+            enabled: false
+          }
         },
       ],
     };

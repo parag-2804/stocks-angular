@@ -72,7 +72,7 @@
         </div>
         <div
           class="company-logo col-4 col-md-4 text-center d-flex flex-column align-items-center justify-content-start">
-          <img src="{{companyDescription.logo}}" style="height:50px; width: 50px;" class="comp-logo">
+          <img src="{{companyDescription.logo}}" style="height:90px; width: 90px;" class="comp-logo">
         </div>
         <div class="stock-details col-4 col-md-4 d-flex flex-column align-items-end justify-content-start px-0"
           *ngIf="stockPrice">
@@ -221,33 +221,33 @@
           </mat-tab>
           <mat-tab label="Insights" class="col-10">
             <ng-template matTabContent>
-              <div class="social-sent-heading w-100">
-                Social Sentiments
+              <div class="insider-sent-heading w-100">
+                Insider Sentiments
               </div>
               <!-- <div class="row d-flex justify-content-center"> -->
-              <div class="social-sent-table d-flex justify-content-center text-center mb-4">
+              <div class="insider-sent-table d-flex justify-content-center text-center mb-4">
                 <table>
-                  <tr class="social-tab-row social-color-grey">
-                    <td class="social-col1 px-5">
-                      {{ companyDescription.name }}
+                  <tr class="insider-tab-row insider-color-grey">
+                    <td class="insider-col1 px-5" ><strong>
+                      {{ companyDescription.name }}</strong>
                     </td>
-                    <td class="social-col2 px-5">Reddit</td>
-                    <td class="social-col2 px-5">Twitter</td>
+                    <td class="insider-col2 px-5"><strong>MSPR</strong></td>
+                    <td class="insider-col2 px-5"><strong>Change</strong></td>
                   </tr>
-                  <tr class="social-tab-row">
-                    <td class="social-color-grey">Total Mentions</td>
-                    <td>{{totalMentionRed}}</td>
-                    <td>{{totalMentionTwit}}</td>
+                  <tr class="insider-tab-row">
+                    <td ><strong>Total</strong></td>
+                    <td>{{aggregatedInsiderData.totalMspr}}</td>
+                    <td>{{aggregatedInsiderData.totalChange}}</td>
                   </tr>
-                  <tr class="social-tab-row">
-                    <td class="social-color-grey">Positive Mentions</td>
-                    <td>{{positiveMentionRed}}</td>
-                    <td>{{positiveMentionTwit}}</td>
+                  <tr class="insider-tab-row">
+                    <td ><strong>Positive</strong></td>
+                    <td>{{aggregatedInsiderData.positiveMspr}}</td>
+                    <td>{{aggregatedInsiderData.positiveChange}}</td>
                   </tr>
-                  <tr class="social-tab-row">
-                    <td class="social-color-grey">Negative Mentions</td>
-                    <td>{{negativeMentionRed}}</td>
-                    <td>{{negativeMentionTwit}}</td>
+                  <tr class="insider-tab-row">
+                    <td ><strong>Negative</strong></td>
+                    <td>{{aggregatedInsiderData.negativeMspr}}</td>
+                    <td>{{aggregatedInsiderData.negativeChange}}</td>
                   </tr>
                 </table>
               </div>

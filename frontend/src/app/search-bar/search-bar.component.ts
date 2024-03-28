@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../shared/http.service';
 import { Router } from '@angular/router';
-import { Subject, Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { switchMap, debounceTime, tap, finalize, map, startWith } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 import { StatePreserveService } from '../state-preserve.service';
 
 
