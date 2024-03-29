@@ -32,7 +32,7 @@
             Total : 0.00
         </div>
         <div class="button-deal">
-            <button type="button" class="btn btn-success" *ngIf="stockBuy" [disabled]="enteredQuantity === 0"
+            <button type="button" class="btn btn-success" *ngIf="stockBuy" [disabled]="enteredQuantity === 0 ||  enteredQuantity * stockPrice.c > moneyInWallet"
                 (click)="buyStock(tickerSymbol)">Buy</button>
         </div>
 
@@ -76,7 +76,7 @@
         <div class="button-deal">
 
             <button type="button" class="btn btn-success" *ngIf="stockBuy === false"
-                [disabled]="enteredQuantitySell === 0" (click)="sellStock(tickerSymbol)">Sell</button>
+                [disabled]="enteredQuantitySell === 0 || enteredQuantitySell > stockLeft" (click)="sellStock(tickerSymbol)">Sell</button>
         </div>
 
     </div>
