@@ -4,7 +4,7 @@
     </ngb-alert>
   </div>
 </div>
-<!-- <div class="valid-data" *ngIf="!invalidTicker"> -->
+
 
 
 <div class="valid-data" *ngIf="!invalidTicker">
@@ -38,20 +38,7 @@
       </div>
     </div>
 
-    <!-- <button type="button" aria-label="Close" class="btn-close ng-star-inserted" ></button> -->
-    <!-- <ngb-alert #alert type="danger">
-      <h4 class="alert-heading">Invalid entry!
-        <button type="button" class="close" aria-label="Close" (click)="sellMessage = ''">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </h4>
-    </ngb-alert> -->
-
-
-    <!-- Ticker Symbol : {{tickerSymbol}}
-          <br> -->
-
-    <!-- Div starts for Ticker Description and Image -->
+    
     <div class="mb-4 col-12 d-flex flex-column align-items-center justify-content-center">
       <div class="company-details col-12 col-md-8 d-flex justify-content-center" *ngIf="companyDesc">
         <div class="col-4 col-md-4 d-flex flex-column align-items-start justify-content-start px-0">
@@ -92,7 +79,7 @@
       <div *ngIf="market_open" style="color: green;">{{this.marketMessage}}</div>
       <div *ngIf="!market_open" style="color: red;">{{this.marketMessage}}</div>
     </div>
-    <!-- Div ends for Ticker Description and Image -->
+    
 
     <div class="col-12 d-flex justify-content-center">
       <div class="tabsDiv col-md-8 col-12">
@@ -224,7 +211,7 @@
               <div class="insider-sent-heading w-100">
                 Insider Sentiments
               </div>
-              <!-- <div class="row d-flex justify-content-center"> -->
+              
               <div class="insider-sent-table d-flex justify-content-center text-center mb-4">
                 <table>
                   <tr class="insider-tab-row insider-color-grey">
@@ -254,7 +241,7 @@
 
               <div class="insights-charts justify-content-center row">
 
-                <!-- <ng-container> -->
+                
                 <div class="recomm-trends d-flex col-md-6 col-12 justify-content-end" *ngIf="isChartLoaded"
                   style="display:block; height: 350px; width: 350px;">
                   <highcharts-chart [Highcharts]="Highcharts" style="display:block; height: 350px; width: 350px;"
@@ -267,15 +254,15 @@
                     [options]="chartOptionsHistorical">
                   </highcharts-chart>
                 </div>
-                <!-- </ng-container> -->
+               
               </div>
-              <!-- </div> -->
+             
             </ng-template>
           </mat-tab>
         </mat-tab-group>
 
       </div>
-      <!-- <div class="col-md-2 col-1"></div> -->
+     
     </div>
   </div>
 </div>
@@ -323,43 +310,6 @@
 </ng-template>
 
 
-
-<!-- <ng-template #content let-modal id="modal-backdrop" class="modal-backdrop">
-  <div class="modal-header">
-      <div class="modal-title" id="modal-basic-title">{{currentNews.source}}<span><button type="button"
-                  class="news-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button></span></div>
-
-      <div>{{currentNews.datetime}}</div>
-
-  </div>
-  <div class="modal-body">
-      <div class="news-headline">{{currentNews.headline}}</div>
-      <div>{{currentNews.summary}}</div>
-      <div class="news-url">
-          <span>For more details click </span> <a href="{{currentNews.url}}" target="_blank">here</a>
-      </div>
-  </div>
-  <div class="news-social">
-      <p>Share</p>
-      <div class="news-social-buttons d-flex border">
-          <div>
-              <a class="twitter-share-button" target="_blank"
-                  href="https://twitter.com/intent/tweet?text={{currentNews.url}}">
-                  <fa-icon [icon]="faTwitter" class="fa-2x"></fa-icon>
-              </a>
-          </div>
-          <div>
-              <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/"
-                  data-layout="button_count" data-size="small"><a target="_blank"
-                      href="https://www.facebook.com/sharer/sharer.php?u={{currentNews.url}}"
-                      class="fb-xfbml-parse-ignore">
-                      <fa-icon [icon]="faFacebook" class="fa-2x"></fa-icon>
-                  </a>
-              </div>
-          </div>
-      </div>
-  </div>
-</ng-template> -->
 
 
 <ng-template #portfolioModalBuy let-modal id="modal-backdrop" class="modal-backdrop">

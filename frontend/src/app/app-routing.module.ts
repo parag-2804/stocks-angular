@@ -8,14 +8,7 @@ import { SearchDetailsComponent } from './search-bar/search-details/search-detai
 
 const routes: Routes = [
   { path: '', redirectTo: 'search/home', pathMatch: 'full' },
-  // {
-  //   path: '', component: SearchBarComponent,
-  //   children: [
-  //     { path: 'search/home', component: SearchBarComponent },
-  //     { path: 'search/:tickerVal', component: SearchDetailsComponent }
-  //   ]
-  // },
-
+  
   {
     path: 'search', component: SearchBarComponent,
     children: [
@@ -29,16 +22,6 @@ const routes: Routes = [
   { path: 'portfolio', component: PortfolioComponent }
 
 
-  // {
-
-  //   path: '', redirectTo: '/search/home', pathMatch: 'full',component: SearchBarComponent,
-  //   children: [
-  //     { path: 'search/home', component: SearchBarComponent },
-  //     { path: 'search/:tickerVal', component: SearchDetailsComponent }
-  //   ]
-  // },
-  // { path: 'watchlist', component: WatchlistComponent },
-  // { path: 'portfolio', component: PortfolioComponent }
 ];
 
 @NgModule({

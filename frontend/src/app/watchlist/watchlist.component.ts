@@ -10,8 +10,7 @@ import { HttpService } from '../shared/http.service';
 export class WatchlistComponent implements OnInit {
   watchlistVal : any = [];
   alertWatchlist = false;
-  // compDesc : any = [];
-  // latestPrice : any = [];
+  
   countItem: any = 0;
   companyDesc: any;
   stockPrice : any;
@@ -78,11 +77,9 @@ export class WatchlistComponent implements OnInit {
     this.router.navigate(['/search', item.ticker]);
   }
   cancelButtonClicked(item:any){
-    // console.log(item);
+    
     let tickerN;
-    // let classnameCard = 'card mb-3 d-flex flex-row col-md-12 ' + item.
-    // var parent : any = document.getElementById("main-div");
-    // console.log(parent);
+    
     let index : any;
     for(var i = 0;i<this.watchlistVal.length; i++){
       if(item.ticker == this.watchlistVal[i].ticker){
@@ -91,13 +88,7 @@ export class WatchlistComponent implements OnInit {
         break;
       }
     }
-    // let content : any = parent?.getElementsByClassName("content");
-    // // console.log(content[index])
     
-    // if(content[index]){
-    //   console.log("yes");
-    //   // parent.removeChild(content[index]);
-
       this.watchlistVal.splice(index, 1);
       localStorage.removeItem(item.ticker + "-Watchlist");
     

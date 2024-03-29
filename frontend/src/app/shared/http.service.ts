@@ -42,10 +42,5 @@ export class HttpService {
   
   }
 
-  // Error handling
-  // private error(error: any) {
-  //   let message = (error.message) ? error.message :
-  //     error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-  //   console.error(message);
-  // }
+  
 }

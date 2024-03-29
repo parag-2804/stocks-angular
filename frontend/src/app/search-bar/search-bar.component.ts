@@ -27,9 +27,7 @@ export class SearchBarComponent implements OnInit {
     this.changingValue.next(this.tickerSymbol);
   }
 
-  // title = 'frontend';
-  // private route1Path = 'route1'; //R
-
+ 
   constructor(private router: Router, private service: HttpService, private formBuilder: FormBuilder, private stateServie: StatePreserveService) { }
   ngOnInit() {
     this.getValueOnSearch();
@@ -56,8 +54,8 @@ export class SearchBarComponent implements OnInit {
         debounceTime(300),
         tap(() => (this.isLoading = true)),
         switchMap((value) => {
-          console.log(' switchMap VAL> ', value);
-          // console.log('URL HIT> '+ JSON.stringify(this.service.getDataAutoComplete('autoComplete', value)));
+          
+          
           typedVal = value;
           return this.service.getDataAutoComplete('autoComplete', value)
             .pipe(finalize(() => (this.isLoading = false)));
@@ -95,7 +93,7 @@ export class SearchBarComponent implements OnInit {
     this.router.navigate(['/search', this.tickerSymbol], {});
     this.tellChild();
     this.stateServie.insertData(this.tickerSymbol);
-    // this.autoCompleteForm.reset();
+    
   }
 
   clearSearchDetails() {
@@ -104,12 +102,5 @@ export class SearchBarComponent implements OnInit {
     this.tickerSymbol = "";
     this.router.navigate(['/search/home'], {});
   }
-
-  // displaydisplayFn(company: any) {
-  //   if (company) {
-  //     return company.result.displaySymbol;
-  //   }
-  //   return '';
-  // }
 
 }

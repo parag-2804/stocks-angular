@@ -91,13 +91,6 @@
         Money in Wallet: ${{moneyInWallet}}
     </div>
 </div>
-<!-- <div class="portfolio-main d-flex col-md-12">
-    <div class="empty col-xs-0 col-md-2"></div>
-    <div class="portfolio-money col-12 col-md-8 pt-3">
-        Money in Wallet: ${{moneyInWallet}}
-    </div>
-    <div class="empty col-xs-0 col-md-2"></div>
-</div> -->
 
 <div class="portfolio-main d-flex col-md-12 justify-content-center">
     <div class="main-div col-12 col-md-8 pt-3" *ngIf="alertPortfolio">
@@ -105,9 +98,9 @@
     </div>
 
     <div class="portfolio-cards justify-content-center col-md-8" *ngIf="!alertPortfolio">
-        <!-- <div class="card col-md-7 p-0" *ngFor = "let portItem of portfolioStockDataMap.values()"> -->
+        
         <div class="card w-100 p-0 mb-4" *ngFor="let portItem of portfolioStockDataMap | keyvalue">
-            <!-- <div *ngIf = "portItem.value.qty != null && portItem.value.amount != null"> -->
+            
             <div class="card-header"><span style="font-size: 24px; font-weight: 500;">{{portItem.key}} </span> <span
                     style="color: gray; font-size: 18px;">{{portItem.value.companyName}}</span></div>
             <div class="card-body row">

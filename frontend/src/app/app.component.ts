@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
   title: any;
   constructor() { }
   ngOnInit() {
-    // console.log('res in app.comp> '+ SearchBarComponent.companyDesc)
+    
   }
 }
 

@@ -7,13 +7,13 @@ import { NgbModalConfig,NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-modal-news',
   templateUrl: './modal-news-component.html'
 })
-// @Injectable()
+
 export class ModalNewsComponent implements OnInit {
   @Input() public modalConfig: any;
   @ViewChild('modal') private content: TemplateRef<ModalNewsComponent> | undefined;
   private modalRef: NgbModalRef | undefined;
   public closeResult: string = '';
-  // @Input() name: any;
+  
 
   constructor(private modalService: NgbModal) { }
 
@@ -39,11 +39,4 @@ export class ModalNewsComponent implements OnInit {
   }
 }
 
-// @Component({ selector: 'app-modal-news', templateUrl: './modal-news-component.html' })
-// export class NgbdModalComponent {
-//   constructor(private modalService: NgbModal) { }
-//   open() {
-//     const modalRef = this.modalService.open(ModalNewsComponent);
-//     modalRef.componentInstance.name = 'World';
-//   }
-// }
+

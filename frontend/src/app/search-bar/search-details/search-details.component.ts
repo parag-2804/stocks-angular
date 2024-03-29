@@ -34,12 +34,6 @@ IndicatorCore(Highcharts);
 vbp(Highcharts);
 
 
-// import { ViewChild } from '@angular/core';
-// import { ModalNewsComponent } from '../modal-news/modal-news.component';
-// import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { ActivatedRoute } from "@angular/router";
-// import { switchMap } from "rxjs/operators"
-
 @Component({
   selector: 'app-search-details',
   templateUrl: './search-details.component.html',
@@ -73,13 +67,6 @@ export class SearchDetailsComponent implements OnInit {
   buy_button = false;
   sell_button = false;
   fetchSubscribe: any;
-
-  // latestStockPrice = false;
-
-  
-
-  // @ViewChild(ModalNewsComponent) newsModal : any;
-
   @Input() changing!: Subject<string>;
   @Input('tickerSymbol') tickerSymbol = '';
   @Output() getResponse = new EventEmitter();
@@ -93,19 +80,12 @@ export class SearchDetailsComponent implements OnInit {
   public insiderSentiment: any = [];
   public companyPeers: any = [];
   public companyEarnings: any = [];
-  // public totalMentionRed = 0;
-  // public positiveMentionRed = 0;
-  // public negativeMentionRed = 0;
-  // public totalMentionTwit = 0;
-  // public positiveMentionTwit = 0;
-  // public negativeMentionTwit = 0;
   private periodForRecomm: any = [];
   private dataForRecomm: any = [];
   private epsSurpriseDataX: any = [];
   private epsSurpriseDataY: any = [];
   public newsData20: any = [];
   public newLenCard = 10;
-  //public historicDataSummary: any;
   public hourlydata: any = [];
   isChartLoaded = false;
   isChartLoadedHistorical = false;
@@ -176,8 +156,7 @@ export class SearchDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
-    // localStorage.clear();
+    
     this.tickerSymbol = this.tickerSymbol.toUpperCase();
     this.changing.subscribe((v) => {
       console.log('value is changing', v);
@@ -195,7 +174,7 @@ export class SearchDetailsComponent implements OnInit {
   }
 
   setWalletMoney() {
-    this.moneyInWallet = localStorage.getItem('moneyInWallet'); //parseFloat(money);
+    this.moneyInWallet = localStorage.getItem('moneyInWallet'); 
     if (!this.moneyInWallet) {
       localStorage.setItem('moneyInWallet', '25000.00');
     }
@@ -226,7 +205,7 @@ export class SearchDetailsComponent implements OnInit {
       .subscribe(() => (this.removeMessage = ''));
 
     let money: any = localStorage.getItem('moneyInWallet');
-    this.moneyInWallet = localStorage.getItem('moneyInWallet'); //parseFloat(money);
+    this.moneyInWallet = localStorage.getItem('moneyInWallet'); 
     
   }
 
@@ -246,64 +225,20 @@ export class SearchDetailsComponent implements OnInit {
 
     this.timeManipulation();
 
-    // let historicData = this.httpService.getDataHistoric(
-    //   'historicalDataSummary',
-    //   this.tickerSymbol,
-    //   this.unix_date_6,
-    //   this.unix_date
-    // );
-
+    
     let newsData = this.httpService.getData('companyNews', this.tickerSymbol);
     let companyRecomm = this.httpService.getData(
       'recommendation',
       this.tickerSymbol
     );
-    // let companyInsider = this.httpService.getData(
-    //   'insiderSentiment',
-    //   this.tickerSymbol
-    // );
+    
     let earnings = this.httpService.getData(
       'companyEarnings',
       this.tickerSymbol
     );
     this.spinner = true;
 
-    // combineLatest(comp_desc, latest_stock_p, comp_peer, hist_chart, news_data, comp_recomm, comp_social, comp_earn).subscribe(([res1, res2, res3, res4, res5, res6, res7, res8]: [any, any, any, any, any, any, any, any]) => {
-    //   this.companyDesc = res1;
-    //   // this.display_star = true;
-    //   this.buy_button = true;
-
-    //   this.latestStockPrice = res2;
-    //   this.Current_Price = this.latestStockPrice.c;
-
-    //   this.timeManipulation();
-    //   this.statusService.getHistoricalSummary(this.inputEnteredTicker, this.unix_date_6, this.unix_date).subscribe(res => {
-    //     this.historicalSummary = res;
-    //     console.log(this.historicalSummary);
-    //     this.historySummaryCharts();
-    //   });
-
-    //   this.companyPeers = res3;
-
-    //   this.mainChartData = res4;
-    //   this.mainChart();
-
-    //   this.companyNews = res5;
-    //   this.loadNews();
-    //   this.isNews = true;
-
-    //   this.companyRecommendation = res6;
-    //   this.recommendationData()
-    //   this.isRecommChartLoaded = true
-    //   this.recommendationCharts()
-
-    //   this.companyinsiderSentiments = res7;
-    //   this.addSociaSentiments();
-
-    //   this.companyEarnings = res8;
-    //   this.historicalEPSData();
-    //   this.isHistoricalEpsChart = true;
-    //   this.historicalEpsChart();)
+    
   }
 
   fetchAPI() {
@@ -332,7 +267,7 @@ export class SearchDetailsComponent implements OnInit {
           this.mainChart();
         });
 
-      // this.httpService.getData('stockPrice', this.tickerSymbol).subscribe(res => console.log(JSON.stringify(res)));
+      
       this.httpService
         .getData('stockPrice', this.tickerSymbol)
         .subscribe((res) => {
@@ -341,9 +276,7 @@ export class SearchDetailsComponent implements OnInit {
 
           
           this.timeManipulation();
-          console.log(
-            'unixDatess>> ' + this.unix_date_6 + '  ' + this.unix_date
-          );
+        
 
           this.httpService.getHourlyData(this.tickerSymbol)
           .subscribe((res) => {
@@ -353,21 +286,8 @@ export class SearchDetailsComponent implements OnInit {
           this.hourlyChart();
           })
 
-          // this.httpService
-          //   .getDataHistoric(
-          //     'historicalDataSummary',
-          //     this.tickerSymbol,
-          //     this.unix_date_6,
-          //     this.unix_date
-          //   )
-          //   .subscribe((res) => {
-          //     this.historicDataSummary = res;
-          //     this.historySummaryCharts();
-          //     this.showChart = true;
-          //   });
-          
         });
-      // this.httpService.getData('autoComplete', this.tickerSymbol).subscribe(res => { this.autoComplete = res; console.log('bbb') });
+      
       this.httpService
         .getData('companyNews', this.tickerSymbol)
         .subscribe((res) => {
@@ -411,39 +331,12 @@ export class SearchDetailsComponent implements OnInit {
         .subscribe((res) => {
           this.companyDesc = res;
         });
-      // this.display_star = true;
-      // this.buy_button = true;
+      
       this.httpService
         .getData('stockPrice', this.tickerSymbol)
         .subscribe((res) => {
           this.stockPrice = res;
           this.Current_Price = this.stockPrice.c;
-          
-          // this.timeManipulation();
-
-          // this.httpService.getHourlyData(this.tickerSymbol)
-          // .subscribe((res) => {
-          // //console.log("Testttttt", res)
-          // this.hourlydata = res;
-          // this.showChart = true;
-          // this.hourlyChart();
-
-          // });
-          // this.httpService
-          //   .getDataHistoric(
-          //     'historicalDataSummary',
-          //     this.tickerSymbol,
-          //     this.unix_date_6,
-          //     this.unix_date
-          //   )
-          //   .subscribe((res) => {
-          //     this.historicDataSummary = res;
-          //     this.historySummaryCharts();
-          //     this.showChart = true;
-          //   });
-          
-        
-        
 
         })
     });
@@ -451,8 +344,7 @@ export class SearchDetailsComponent implements OnInit {
 
   buyStock() {
     this._buySuccess.next('Message successfully changed.');
-    // this.portfolio_add = true;
-    // this.portfolio_remove = false;
+    
     if (this.enteredQuantity > 0) {
       let total = this.Current_Price * this.enteredQuantity;
       console.log(total);
@@ -461,9 +353,7 @@ export class SearchDetailsComponent implements OnInit {
       wallet = wallet - total;
       console.log(wallet);
       localStorage.setItem('moneyInWallet', wallet.toFixed(2).toString());
-      // console.log(wallet);
-      // if((localStorage.getItem(this.inputEnteredTicker+"-Portfolio"))){
-      // {"ticker" : "TSLA", "qty" : 4, "amount" : am1};
+      
       if (localStorage.getItem(this.tickerSymbol + '-Portfolio')) {
         let stockValJson: any = localStorage.getItem(
           this.tickerSymbol + '-Portfolio'
@@ -490,7 +380,6 @@ export class SearchDetailsComponent implements OnInit {
         );
       }
 
-      // console.log(localStorage.getItem(this.inputEnteredTicker+"-Portfolio"));
       let stockValJson: any = localStorage.getItem(
         this.tickerSymbol + '-Portfolio'
       );
@@ -501,7 +390,7 @@ export class SearchDetailsComponent implements OnInit {
         console.log(this.sell_button);
       }
 
-      // this.modal.close();
+      
     }
 
     this.modalService.dismissAll();
@@ -509,8 +398,7 @@ export class SearchDetailsComponent implements OnInit {
 
   sellStock() {
     this._sellSuccess.next('Message successfully changed.');
-    // this.portfolio_remove = true;
-    // this.portfolio_add = false;
+    
     if (this.enteredQuantitySell > 0) {
       let total = this.Current_Price * this.enteredQuantitySell;
       console.log(total);
@@ -534,7 +422,7 @@ export class SearchDetailsComponent implements OnInit {
       );
       if (stockQ > 0) {
         this.sell_button = true;
-        // console.log(this.sell_button)
+        
       } else {
         this.sell_button = false;
         localStorage.removeItem(this.tickerSymbol + '-Portfolio');
@@ -553,25 +441,40 @@ export class SearchDetailsComponent implements OnInit {
         this.sell_button = true;
       } else {
         this.sell_button = false;
-        // localStorage.removeItem(this.inputEnteredTicker+"-Portfolio")
+        
       }
     }
   }
 
   
   peerCall(peer: any) {
-    // console.log(peer);
+    
 
     this.router.navigate(['/search', peer]);
     this.changing.next(peer);
     this.tickerSymbol = peer;
-    // this.getWatchlist();
+    
     this.fetchAPI();
   }
 
   timeManipulation() {
     this.curr_date = new Date();
+    
     this.curr_time = new Date(this.stockPrice.t * 1000);
+  
+    // Determine if the market is open.
+    this.market_open = this.curr_time > this.curr_date - 5 * 60 * 1000;
+  
+    if (this.market_open) {
+      
+      this.marketMessage = 'Market is Open';
+    } else {
+      // Market is closed, update curr_time to reflect the current date and time.
+      this.curr_time = new Date(); 
+      this.marketMessage = 'Market is Closed';
+    }
+  
+    // Construct the timestamp string from curr_time.
     this.timestamp =
       this.curr_time.getFullYear() +
       '-' +
@@ -589,49 +492,26 @@ export class SearchDetailsComponent implements OnInit {
       ':' +
       (this.curr_time.getSeconds() < 10 ? '0' : '') +
       this.curr_time.getSeconds();
-    // if (this.companyDesc && this.companyDesc.ticker) {
-    //   this.display_star = true;
-
-    // }
+  
+    // Handling percentage change display logic 
     if (this.stockPrice.dp >= 0) {
       this.change_percent = true;
     }
-
-    this.market_open = this.curr_time > this.curr_date - 5 * 60 * 1000;
-
+  
+    // Adjusting Unix date calculations for whether market is open or closed.
     if (this.market_open) {
-      this.marketMessage = 'Market is Open';
       this.unix_date = Math.floor(Date.now() / 1000);
-      this.date_today_6 = this.curr_date.setHours(
-        this.curr_date.getHours() - 6
-      );
+      this.date_today_6 = this.curr_date.setHours(this.curr_date.getHours() - 6);
       this.unix_date_6 = Math.floor(this.date_today_6 / 1000);
     } else {
-      this.unix_date = this.stockPrice.t;
-      this.date_today_6 = this.curr_time.setHours(
-        this.curr_time.getHours() - 6
-      );
+      // When the market is closed, ensure the calculations reflect the current time
+      this.unix_date = Math.floor(Date.now() / 1000);
+      this.date_today_6 = this.curr_time.setHours(this.curr_time.getHours() - 6);
       this.unix_date_6 = Math.floor(this.date_today_6 / 1000);
     }
   }
-
   
-
-  // loadValuesForInsider(insiderSent: any) {
-  //   let redditVals = insiderSent.reddit;
-  //   let twitterVal = insiderSent.twitter;
-  //   for (let i = 0; i < redditVals.length; i++) {
-  //     this.totalMentionRed += redditVals[i].mention;
-  //     this.positiveMentionRed += redditVals[i].positiveMention;
-  //     this.negativeMentionRed += redditVals[i].negativeMention;
-  //   }
-  //   for (let i = 0; i < twitterVal.length; i++) {
-  //     this.totalMentionTwit += twitterVal[i].mention;
-  //     this.positiveMentionTwit += twitterVal[i].positiveMention;
-  //     this.negativeMentionTwit += twitterVal[i].negativeMention;
-  //   }
-  // }
-// Assuming that `this.insiderSentiment` is an array with the same structure as the API response
+  
 
 loadValuesForInsider(insiderData: any) {
   // Resetting aggregated values
@@ -690,7 +570,7 @@ loadValuesForInsider(insiderData: any) {
         item.url != '' &&
         item.url != undefined
       ) {
-        // let tempDate = this.convertDateFromUnix(item.datetime);
+        
         item.datetime = this.convertDateFromUnix(item.datetime);
         tempNewsData.push(item);
         k += 1;
@@ -719,7 +599,7 @@ loadValuesForInsider(insiderData: any) {
   }
 
   convertDateFromUnix(unixDate: any) {
-    //Februray 24,2023
+   
     let date = new Date(unixDate * 1000);
     let months = [
       'January',
@@ -735,7 +615,7 @@ loadValuesForInsider(insiderData: any) {
       'November',
       'December',
     ];
-    // console.log('DateFormat> '+months[date.getMonth()]+' '+date.getDay()+','+date.getFullYear());
+   
     let reqDate =
       months[date.getMonth()] + ' ' + date.getDay() + ',' + date.getFullYear();
     return reqDate;
@@ -759,8 +639,7 @@ loadValuesForInsider(insiderData: any) {
       strongSell.push(dataRecom[i].strongSell);
     }
     this.dataForRecomm = [strongBuy, buy, hold, sell, strongSell];
-    // this.dataForRecomm.push(strongBuy);
-    // this.dataForRecomm.push(buy);
+    
   }
 
   
@@ -815,7 +694,7 @@ loadValuesForInsider(insiderData: any) {
   
 
   chartForRecommendation() {
-    //TBD: legend in 1line, remove total , date in straight way
+    
     console.log('recom pe>' + this.periodForRecomm);
     this.chartOptions = {
       chart: { type: 'column' },
@@ -835,7 +714,7 @@ loadValuesForInsider(insiderData: any) {
           style: {
             fontWeight: 'bold',
             color:
-              // theme
+              
               (Highcharts.defaultOptions.title?.style &&
                 Highcharts.defaultOptions.title.style.color) ||
               'gray',
@@ -845,13 +724,12 @@ loadValuesForInsider(insiderData: any) {
       legend: {
         align: 'center',
         x: -24,
-        // verticalAlign: 'bottom',
+        
         y: 0,
-        // floating: true,
+        
         backgroundColor:
           Highcharts.defaultOptions.legend?.backgroundColor || 'white',
-        // borderColor: '#CCC',
-        // borderWidth: 1,
+        
         shadow: false,
         itemStyle: {
           fontSize: '7px',
@@ -867,8 +745,7 @@ loadValuesForInsider(insiderData: any) {
       },
       series: [
         {
-          // groupPadding: 0,
-          // pointPadding: 0.1,
+          
           name: 'Strong Buy',
           type: 'column',
           data: this.dataForRecomm[0],
@@ -908,16 +785,12 @@ loadValuesForInsider(insiderData: any) {
   }
 
   loadDataForHistoricalEPS(dataHistoric: any) {
-    // epsSurpriseDataX
+    
     this.epsSurpriseDataX = [];
     console.log('dataHistoric> ' + JSON.stringify(dataHistoric));
     let actualData = [];
     let estimateData = [];
-    // for (let i = 0; i < dataHistoric.length; i++) {
-    //   this.epsSurpriseDataX.push(`"${dataHistoric[i].period} Surprise: ${dataHistoric[i].surprise}"`);
-    //   actualData.push(dataHistoric[i].actual);
-    //   estimateData.push(dataHistoric[i].estimate);
-    // }
+    
 
     for (let i = 0; i < dataHistoric.length; i++) {
       let list1 = [
@@ -931,16 +804,16 @@ loadValuesForInsider(insiderData: any) {
       this.epsSurpriseDataX.push(
         dataHistoric[i].period + ' Surprise:' + dataHistoric[i].surprise
       );
-      // actualData.push(this.companyEarnings[i].actual);
+      
       actualData.push(list1);
       estimateData.push(list2);
-      // estimateData.push(this.companyEarnings[i].estimate);
+      
     }
 
-    console.log('this.epsSurpriseDataX> ' + this.epsSurpriseDataX);
+    
 
     this.epsSurpriseDataY = [actualData, estimateData];
-    // console.log('this.epsSurpriseDataY> '+this.epsSurpriseDataY);
+    
   }
 
   chartForHistorical() {
@@ -959,11 +832,7 @@ loadValuesForInsider(insiderData: any) {
         },
       },
 
-      // xAxis: {
-      //   accessibility: {
-      //     rangeDescription: this.epsSurpriseDataX
-      //   }
-      // },
+      
 
       xAxis: {
         type: 'category',
@@ -974,7 +843,7 @@ loadValuesForInsider(insiderData: any) {
           useHTML: true,
           allowOverlap: true,
           style: {
-            // width: '10px',
+            
             fontSize: '10px',
             wordBreak: 'break-all',
             textAlign: 'center',
@@ -982,10 +851,6 @@ loadValuesForInsider(insiderData: any) {
           },
         },
       },
-
-      // xAxis: {
-      //   type: 'category',
-      //   categories: this.epsSurpriseDataX },
 
       legend: {
         layout: 'vertical',
@@ -1036,16 +901,15 @@ loadValuesForInsider(insiderData: any) {
 
   
   mainChart() {
-    // split the data set into ohlc and volume
-    // console.log(this.mainChartData);
+    
     let ohlc = [],
       volume = [];
 
-    // set the allowed units for data grouping
+    
     let groupingUnits: any = [
       [
-        'week', // unit name
-        [1], // allowed multiples
+        'week', 
+        [1], 
       ],
       ['month', [1, 2, 3, 4, 6]],
     ];
@@ -1062,27 +926,21 @@ loadValuesForInsider(insiderData: any) {
       volume[i] = [
         this.mainChartData.results[i]['t'],
         this.mainChartData.results[i]['v'],
-        // data[i][0], // the date
-        // data[i][5] // the volume
+        
       ];
     }
-    // console.log(ohlc);
-    // console.log("vol",volume)
+    
     Highcharts.setOptions({
       time: {
         timezoneOffset: 7 * 60,
       },
     });
     this.chartOptionsMain = {
-      // xAxis:[{
-      //   scrollbar: {
-      //     enabled: true
-      // },
-      // type: 'datetime',
+      
       title: {
         text: this.tickerSymbol + ' Historical',
         style: {
-          // color: '#9e9e9f',
+          
           fontSize: '15',
         },
       },
@@ -1129,7 +987,7 @@ loadValuesForInsider(insiderData: any) {
         selected: 2,
         enabled: true,
         inputEnabled: true,
-        // inputDateFormat: '%b %e, %Y %H:%M',
+        
         allButtonsEnabled: true,
       },
       navigator: {
@@ -1137,7 +995,7 @@ loadValuesForInsider(insiderData: any) {
       },
       xAxis: {
         ordinal: true,
-        // navigator : true,
+        
 
         type: 'datetime',
       },
@@ -1235,16 +1093,14 @@ loadValuesForInsider(insiderData: any) {
 
     for (var i = 0; i < this.hourlydata.results.length; i++) {
       var tempList1 = [
-        this.hourlydata.results[i]['t'], // Adjusted to access 't' correctly
-        this.hourlydata.results[i]['c'],        // Adjusted to access 'c' correctly
+        this.hourlydata.results[i]['t'], 
+        this.hourlydata.results[i]['c'],        
       ];
-      list1.push(tempList1); // Using push is more idiomatic here
+      list1.push(tempList1); 
     }
 
     Highcharts.setOptions({
-      // time: {
-      //   timezoneOffset: 7 * 60,
-      // },
+     
     });
 
     this.chartOptionsSummary = {
@@ -1291,20 +1147,19 @@ loadValuesForInsider(insiderData: any) {
 
   
   getWatchlist() {
-    // console.log(this.inputEnteredTicker);
-    // console.log(localStorage.getItem(this.inputEnteredTicker));
+    
     if (
       this.tickerSymbol ===
       localStorage.getItem(this.tickerSymbol + '-Watchlist')
     ) {
-      // console.log('yes');
+      
       this.display_filled_star = true;
       this.display_star = false;
     } else {
       this.display_filled_star = false;
       this.display_star = true;
     }
-    // this.buyStock();
+    
   }
 
   addToWatchlist() {
@@ -1328,4 +1183,4 @@ loadValuesForInsider(insiderData: any) {
     this.fetchSubscribe.unsubscribe();
   }
 }
-//'Range: 2010 to 2017' : TBD
+

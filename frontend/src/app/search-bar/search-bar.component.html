@@ -6,14 +6,12 @@
         (ngSubmit)="loadStockDetails(tickerSymbol)">
 
         <div class="input-stock d-flex justify-content-center align-items-center col-md-3 col-8">
-            <!-- <input matInput id="tickerSymbol" name="tickerSymbol" placeholder="Enter Stock Ticker Symbol"
-                [(ngModel)]="tickerSymbol" (keyup.enter)="loadStockDetails1()" class="input-area w-100"
-                formControlName="tickerInput"> -->
+           
 
             <input matInput id="tickerSymbol" name="tickerSymbol" placeholder="Enter Stock Ticker Symbol"
                 [(ngModel)]="tickerSymbol" (keyup.enter)="loadStockDetails(tickerSymbol)" class="input-area w-100"
                 formControlName="tickerInput" [matAutocomplete]="auto" required>
-            <!-- <div *ngIf="showSuggestions"> -->
+            
                 <mat-autocomplete #auto="matAutocomplete">
                     <mat-option *ngIf="isLoading" class="is-loading">
                         <mat-spinner diameter="50"></mat-spinner>
@@ -26,7 +24,7 @@
                         </mat-option>
                     </ng-container>
                 </mat-autocomplete>
-            <!-- </div> -->
+            
 
 
 

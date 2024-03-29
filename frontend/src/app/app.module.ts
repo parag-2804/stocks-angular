@@ -20,7 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-// import { ModalNewsComponent } from './search-bar/modal-news/modal-news.component';
+
 
 @NgModule({
   declarations: [
@@ -48,9 +48,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatProgressSpinnerModule,
     MatAutocompleteModule
   ],
-  // exports: [ModalNewsComponent],
+  
   providers: [],
   bootstrap: [AppComponent],
-  // entryComponents: [ ModalNewsComponent ]
+  
 })
 export class AppModule { }
