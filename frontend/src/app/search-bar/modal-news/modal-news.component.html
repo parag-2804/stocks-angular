@@ -1,4 +1,4 @@
-<ng-template #content let-modal id="modal-backdrop" class="modal-backdrop"> 
+<!-- <ng-template #content let-modal id="modal-backdrop" class="modal-backdrop"> 
   <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -18,4 +18,49 @@
   <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
   </div>
-</ng-template>
+</ng-template> -->
+
+
+<ng-template #content let-modal id="modal-backdrop" class="modal-backdrop mt-5">
+    <div class="modal-header">
+      <div class="modal-title d-flex justify-content-between align-items-start" id="modal-basic-title">
+        <span>{{ currentNews.source }}</span>
+        <!-- Updated button for Bootstrap 5 with the 'btn-close' class and data-bs-dismiss attribute removed since it's handled by Angular (click) event -->
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+  
+      <div style="color: #6d767d">{{ currentNews.datetime }}</div>
+    </div>
+    <div class="modal-body">
+      <h5 class="news-headline">{{ currentNews.headline }}</h5>
+      <p>{{ currentNews.summary }}</p>
+      <div class="news-url mb-4">
+        <span style="color: #6d767d">For more details click </span>
+        <a href="{{ currentNews.url }}" target="_blank">here</a>
+      </div>
+      <div class="news-social border p-3">
+        <p>Share</p>
+        <div class="news-social-buttons d-flex">
+          <div class="me-2">
+            <!-- For Bootstrap 5, ensure alignment and spacing classes are correctly used; 'mr-2' is now 'me-2' for margin-end -->
+            <a class="twitter-share-button" target="_blank"
+              href="https://twitter.com/intent/tweet?text={{ currentNews.url }}">
+              <!-- Assuming 'fa-icon' is a custom or library component that correctly handles Font Awesome icons -->
+              <fa-icon [icon]="faTwitter" class="fa-2x"></fa-icon>
+            </a>
+          </div>
+          <div>
+            <!-- Ensure custom classes or Bootstrap utilities are correctly applied -->
+            <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/"
+              data-layout="button_count" data-size="small">
+              <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{currentNews.url}}"
+                class="fb-xfbml-parse-ignore">
+                <fa-icon [icon]="faFacebook" class="fa-2x"></fa-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  

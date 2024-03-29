@@ -163,11 +163,13 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer d-flex flex-row-reverse p-2">
+            <div class="card-footer d-flex justify-content-start p-2">
+                
+                <button type="button" class="btn btn-primary btn-sm mr-2"
+                    (click)="openPortfolioBuy(portfolioModalBuy,'buy',portItem.key)">Buy</button>
+                
                 <button type="button" class="btn btn-danger btn-sm"
                     (click)="openPortfolioSell(portfolioModalSell,'sell',portItem.key)">Sell</button>
-                <button type="button" class="btn btn-primary mr-2 btn-sm"
-                    (click)="openPortfolioBuy(portfolioModalBuy,'buy',portItem.key)">Buy</button>
             </div>
             <!-- </div> -->
         </div>

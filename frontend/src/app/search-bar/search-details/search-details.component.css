@@ -31,6 +31,10 @@
   text-align: right;
 }
 
+.btn-close-smaller {
+  transform: scale(0.25); 
+}
+
 .news-close {
   float: right;
 }
@@ -54,9 +58,8 @@
   
 }
 
-.card-news {
+.card-hover-pointer:hover {
   cursor: pointer;
-  
 }
 
 
