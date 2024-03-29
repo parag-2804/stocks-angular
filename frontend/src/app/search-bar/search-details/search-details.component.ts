@@ -464,6 +464,16 @@ export class SearchDetailsComponent implements OnInit {
   
     // Determine if the market is open.
     this.market_open = this.curr_time > this.curr_date - 5 * 60 * 1000;
+
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    // Format the current date
+    const formattedDate = [
+      this.curr_date.getFullYear(),
+      ('0' + (this.curr_date.getMonth() + 1)).slice(-2), // Months are 0-based, add leading 0 and slice last 2 digits
+      ('0' + this.curr_date.getDate()).slice(-2) // Add leading 0 and slice last 2 digits
+    ].join('-');
+    // Set the fixed time
+    const fixedTime = '13:00:00';
   
     if (this.market_open) {
       
@@ -471,7 +481,7 @@ export class SearchDetailsComponent implements OnInit {
     } else {
       // Market is closed, update curr_time to reflect the current date and time.
       this.curr_time = new Date(); 
-      this.marketMessage = 'Market is Closed';
+      this.marketMessage = `Market Closed on ${formattedDate} ${fixedTime}`;
     }
   
     // Construct the timestamp string from curr_time.
