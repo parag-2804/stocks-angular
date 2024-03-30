@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const port = 8080;
-const request = require('request');
+//const port = 8080;
+//const request = require('request');
 const { DateTime , Duration } = require('luxon');
 const axios = require('axios');
 const cors = require('cors');
@@ -13,6 +13,14 @@ const Polygonkey = process.env.POLYGON_KEY;
 // const Polygonkey = 'XIeTIvWrNYlpXg0eCrOhLm_P9a4zR9CM'
 // let ticker = '';
 app.use(cors());
+
+const port = parseInt(process.env.PORT) || 8080;
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'dist/frontend')));
+app.get('/', (req, res) => {
+
+    res.sendFile(path.join(__dirname, 'dist/frontend/index.html'));
+});
 
 
 app.get('/companyDesc', async function (req, res) {

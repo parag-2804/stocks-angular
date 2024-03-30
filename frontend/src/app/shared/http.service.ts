@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpService {
-   private baseUrl = 'http://localhost:8080/'; 
-  //private baseUrl = 'https://csci571hw8-backend-346006.wl.r.appspot.com/';
+  //private baseUrl = 'http://localhost:8080/'; 
+  private baseUrl = 'https://parag2804stockangular.wl.r.appspot.com/';
   urlPath = ''
   constructor(private http: HttpClient) { }
 
