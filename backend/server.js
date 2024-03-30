@@ -9,18 +9,32 @@ let dayjs = require('dayjs');
 require('dotenv').config();
 const FinnhubKey = process.env.FINNHUB_KEY;
 const Polygonkey = process.env.POLYGON_KEY;
-// const FinnhubKey = 'cna9631r01qjv5ip8v6gcna9631r01qjv5ip8v70'
-// const Polygonkey = 'XIeTIvWrNYlpXg0eCrOhLm_P9a4zR9CM'
-// let ticker = '';
+
 app.use(cors());
 
 const port = parseInt(process.env.PORT) || 8080;
 const path = require('path');
+
+app.get('/companyDescript/:ticker', async function (req, res) {
+    try {
+        const { ticker } = req.params;
+        const response = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${FinnhubKey}`);
+        res.send(response.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
 app.use(express.static(path.join(__dirname, 'dist/frontend')));
 app.get('/', (req, res) => {
 
     res.sendFile(path.join(__dirname, 'dist/frontend/index.html'));
 });
+
+
 
 
 app.get('/companyDesc', async function (req, res) {
@@ -188,6 +202,12 @@ app.get('/companyEarnings', async function (req, res) {
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
+});
+
+app.use(express.static(path.join(__dirname, 'dist/frontend')));
+app.get('*', (req, res) => {
+
+    res.sendFile(path.join(__dirname, 'dist/frontend/index.html'));
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))

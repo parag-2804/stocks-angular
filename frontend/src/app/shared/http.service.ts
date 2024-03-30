@@ -42,5 +42,10 @@ export class HttpService {
   
   }
 
+  getCompanyDesc(ticker: string) : Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}companyDescript/${ticker}`);
+  
+  }
+
   
 }
