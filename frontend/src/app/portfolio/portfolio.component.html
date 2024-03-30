@@ -1,11 +1,11 @@
 <ng-template #portfolioModalBuy let-modal id="modal-backdrop" class="modal-backdrop">
-    <div class="modal-header d-flex">
+    <div class="modal-header d-flex justify-content-between align-items-center">
         <div class="modal-title" id="modal-basic-title">
             {{tickerSymbol}}
         </div>
         <div class="cancel-button">
-            <button type="button" div class="close" (click)="this.modal.close()">
-                <i class="bi bi-x"></i>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()">
+                
             </button>
         </div>
     </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="quantity-input d-flex align-items-center">
             <div class="quantity mb-0 mr-2">Quantity </div>
-            <input class="form-control col-6" id="quantity-value" type="number" value=0 [(ngModel)]="enteredQuantity" />
+            <input class="form-control" id="quantity-value" type="number" value=0 [(ngModel)]="enteredQuantity" />
         </div>
         <div class="color-red" *ngIf="enteredQuantity * stockPrice.c > moneyInWallet">
             Not enough money in wallet!
@@ -40,13 +40,13 @@
 </ng-template>
 
 <ng-template #portfolioModalSell let-modal id="modal-backdrop" class="modal-backdrop">
-    <div class="modal-header d-flex">
+    <div class="modal-header d-flex justify-content-between align-items-center">
         <div class="modal-title" id="modal-basic-title">
             {{tickerSymbol}}
         </div>
         <div class="cancel-button">
-            <button type="button" id="btnModeClose" class="close" (click)="this.modal.close()">
-                <i class="bi bi-x"></i>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()">
+               
             </button>
         </div>
     </div>
@@ -59,7 +59,7 @@
         </div>
         <div class="quantity-input d-flex align-items-center">
             <div class="quantity mb-0 mr-2">Quantity </div>
-            <input class="form-control col-6" id="quantity-value" type="number" value=0
+            <input class="form-control" id="quantity-value" type="number" value=0
                 [(ngModel)]="enteredQuantitySell" />
         </div>
         <div class="color-red" *ngIf="enteredQuantitySell > stockLeft">

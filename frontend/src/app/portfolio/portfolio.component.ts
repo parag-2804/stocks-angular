@@ -21,7 +21,7 @@ export class PortfolioComponent implements OnInit {
   currentStockModalData = '';
   stockPriceC: any;
   cName: any;
-  changeInPort = 0;
+  public changeInPort = 0;
 
   private _buySuccess = new Subject<string>();
   private _sellSuccess = new Subject<string>();
@@ -43,14 +43,14 @@ export class PortfolioComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (localStorage.getItem('moneyInWallet')) {
-      let money: any = localStorage.getItem('moneyInWallet')
-      this.moneyInWallet = parseFloat(money);
-    }
-    else {
+    // if (localStorage.getItem('moneyInWallet')) {
+    //   let money: any = localStorage.getItem('moneyInWallet')
+    //   this.moneyInWallet = parseFloat(money);
+    // }
+    
       localStorage.setItem('moneyInWallet', "25000.00");
       this.moneyInWallet = localStorage.getItem('moneyInWallet')
-    }
+    
 
     // this.loadPortfolioStockData();
 
@@ -208,17 +208,15 @@ export class PortfolioComponent implements OnInit {
       let wallet: any = parseFloat(val);
       wallet = wallet - total;
       localStorage.setItem('moneyInWallet', wallet.toFixed(2).toString());
+      //console.log(localStorage.getItem(this.tickerSymbol))
     
       if (localStorage.getItem(this.tickerSymbol + "-Portfolio")) {
-        console.log(this.tickerSymbol)
+        
         let stockValJson: any = localStorage.getItem(this.tickerSymbol + "-Portfolio");
         let stockVal = JSON.parse(stockValJson);
-        console.log(stockVal);
+        
         let quantity = this.enteredQuantity + stockVal.qty;
         total = total + stockVal.amount;
-        console.log(this.enteredQuantity);
-        console.log(total);
-        console.log('lolly> ' + total + 'stockVal>   ' + JSON.stringify(stockVal));
         localStorage.setItem(this.tickerSymbol + "-Portfolio", JSON.stringify({ "ticker": this.tickerSymbol, "qty": quantity, "amount": total }))
         this.changeInPort = Math.round(((this.stockPriceC - total / quantity) + Number.EPSILON) * 100) / 100;
         let portfolData = this.portfolioStockDataMap.get(this.tickerSymbol);
@@ -231,7 +229,7 @@ export class PortfolioComponent implements OnInit {
           totalCost: total,
           changeInPort: this.changeInPort
         })
-        console.log('portfolioStockDataMap>' + this.portfolioStockDataMap);
+        
       }
     }
     let money: any = localStorage.getItem('moneyInWallet')

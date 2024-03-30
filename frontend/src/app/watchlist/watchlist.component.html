@@ -9,11 +9,11 @@
         </div>
     </div>
     <div class="main-div col-12 col-md-8 pt-4" *ngIf="!alertWatchlist" id="main-div">
-        <div class="content mb-3" *ngFor="let item of watchlistVal">
+        <div class="content mb-3" *ngFor="let item of watchlistVal" style="cursor: pointer;" >
             <div class="cancel-button">
                 <i class="bi bi-x-lg" (click)="cancelButtonClicked(item)"></i>
             </div>
-            <div class="card d-flex flex-row justify-content-between align-items-center col-12 border-0 pb-2">
+            <div class="card d-flex flex-row justify-content-between align-items-center col-12 border-0 pb-2" style="cursor: pointer;">
                 <div class="comp-details" (click)="loadData(item)">
                     <div class="comp-ticker mb-1">{{ item.ticker }}</div>
                     <div class="comp-name">{{ item.name }}</div>

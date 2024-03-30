@@ -43,7 +43,7 @@ export class SearchDetailsComponent implements OnInit {
   faTwitter = faTwitter;
   faFacebook = faFacebookSquare;
 
-  // Lolly
+
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {};
   chartOptionsHistorical: Highcharts.Options = {};
@@ -80,7 +80,7 @@ export class SearchDetailsComponent implements OnInit {
   public insiderSentiment: any = [];
   public companyPeers: any = [];
   public companyEarnings: any = [];
-  private periodForRecomm: any = [];
+  private recomPeriod: any = [];
   private dataForRecomm: any = [];
   private epsSurpriseDataX: any = [];
   private epsSurpriseDataY: any = [];
@@ -103,7 +103,9 @@ export class SearchDetailsComponent implements OnInit {
     positiveChange: 0,
     negativeChange: 0,
   };
-
+  
+  cName: any;
+  public changeInPort = 0;
   
   public showMainChart = false;
   change_percent = false;
@@ -123,6 +125,8 @@ export class SearchDetailsComponent implements OnInit {
   stockBuy = false;
   stockLeft: any;
   spinner = false;
+  stockPriceC: any;
+  portfolioStockDataMap: any;
   
 
   constructor(
@@ -280,7 +284,7 @@ export class SearchDetailsComponent implements OnInit {
 
           this.httpService.getHourlyData(this.tickerSymbol)
           .subscribe((res) => {
-          console.log("Testttttt", res)
+          //console.log("Testttttt", res)
           this.hourlydata = res;
           this.showChart = true
           this.hourlyChart();
@@ -302,7 +306,7 @@ export class SearchDetailsComponent implements OnInit {
           this.recommendation = res;
           this.loadDataForRecomChart(this.recommendation);
           this.isChartLoaded = true;
-          this.chartForRecommendation();
+          this.recomChart();
         });
       this.httpService.getInsiderData(this.tickerSymbol)
         .subscribe((res) => {
@@ -319,9 +323,9 @@ export class SearchDetailsComponent implements OnInit {
         .getData('companyEarnings', this.tickerSymbol)
         .subscribe((res) => {
           this.companyEarnings = res;
-          this.loadDataForHistoricalEPS(this.companyEarnings);
+          this.loadEPSChartData(this.companyEarnings);
           this.isChartLoadedHistorical = true;
-          this.chartForHistorical();
+          this.EPSChart();
         });
     }
 
@@ -347,29 +351,37 @@ export class SearchDetailsComponent implements OnInit {
     
     if (this.enteredQuantity > 0) {
       let total = this.Current_Price * this.enteredQuantity;
-      console.log(total);
+      
       let val: any = localStorage.getItem('moneyInWallet');
       let wallet: any = parseFloat(val);
       wallet = wallet - total;
-      console.log(wallet);
+      
       localStorage.setItem('moneyInWallet', wallet.toFixed(2).toString());
       
-      if (localStorage.getItem(this.tickerSymbol + '-Portfolio')) {
-        let stockValJson: any = localStorage.getItem(
-          this.tickerSymbol + '-Portfolio'
-        );
+      if (localStorage.getItem(this.tickerSymbol + "-Portfolio")) {
+        console.log(this.tickerSymbol)
+        let stockValJson: any = localStorage.getItem(this.tickerSymbol + "-Portfolio");
         let stockVal = JSON.parse(stockValJson);
-        let quantity = this.enteredQuantity + stockVal.quantity;
-        total = total + stockVal.totalPrice;
-        localStorage.setItem(
-          this.tickerSymbol + '-Portfolio',
-          JSON.stringify({
-            ticker: this.tickerSymbol,
-            qty: quantity,
-            amount: total,
-          })
-        );
-      } else {
+        
+        let quantity = this.enteredQuantity + stockVal.qty;
+        total = total + stockVal.amount;
+        localStorage.setItem(this.tickerSymbol + "-Portfolio", JSON.stringify({ "ticker": this.tickerSymbol, "qty": quantity, "amount": total }))
+        this.changeInPort = Math.round(((this.stockPriceC - total / quantity) + Number.EPSILON) * 100) / 100;
+        let portfolData = this.portfolioStockDataMap.get(this.tickerSymbol);
+        this.cName = portfolData.companyName;
+        this.portfolioStockDataMap.set(this.tickerSymbol, {
+          tickerVal: this.tickerSymbol,
+          companyName: this.cName,
+          currentPrice: this.stockPriceC,
+          quantity: quantity,
+          totalCost: total,
+          changeInPort: this.changeInPort
+        })
+        
+      }
+
+      else {
+        console.log(this.tickerSymbol +'Success')
         localStorage.setItem(
           this.tickerSymbol + '-Portfolio',
           JSON.stringify({
@@ -384,10 +396,10 @@ export class SearchDetailsComponent implements OnInit {
         this.tickerSymbol + '-Portfolio'
       );
       let stockVal = JSON.parse(stockValJson);
-      console.log('stockVal>' + stockVal);
+      
       if (stockVal.qty > 0) {
         this.sell_button = true;
-        console.log(this.sell_button);
+        
       }
 
       
@@ -395,7 +407,7 @@ export class SearchDetailsComponent implements OnInit {
 
     this.modalService.dismissAll();
   }
-
+  
   sellStock() {
     this._sellSuccess.next('Message successfully changed.');
     
@@ -469,22 +481,22 @@ export class SearchDetailsComponent implements OnInit {
     // Format the current date
     const formattedDate = [
       this.curr_date.getFullYear(),
-      ('0' + (this.curr_date.getMonth() + 1)).slice(-2), // Months are 0-based, add leading 0 and slice last 2 digits
-      ('0' + this.curr_date.getDate()).slice(-2) // Add leading 0 and slice last 2 digits
+      ('0' + (this.curr_date.getMonth() + 1)).slice(-2), 
+      ('0' + this.curr_date.getDate()).slice(-2) 
     ].join('-');
-    // Set the fixed time
+    
     const fixedTime = '13:00:00';
   
     if (this.market_open) {
       
       this.marketMessage = 'Market is Open';
     } else {
-      // Market is closed, update curr_time to reflect the current date and time.
+      
       this.curr_time = new Date(); 
       this.marketMessage = `Market Closed on ${formattedDate} ${fixedTime}`;
     }
   
-    // Construct the timestamp string from curr_time.
+    
     this.timestamp =
       this.curr_time.getFullYear() +
       '-' +
@@ -503,18 +515,18 @@ export class SearchDetailsComponent implements OnInit {
       (this.curr_time.getSeconds() < 10 ? '0' : '') +
       this.curr_time.getSeconds();
   
-    // Handling percentage change display logic 
+    
     if (this.stockPrice.dp >= 0) {
       this.change_percent = true;
     }
   
-    // Adjusting Unix date calculations for whether market is open or closed.
+    
     if (this.market_open) {
       this.unix_date = Math.floor(Date.now() / 1000);
       this.date_today_6 = this.curr_date.setHours(this.curr_date.getHours() - 6);
       this.unix_date_6 = Math.floor(this.date_today_6 / 1000);
     } else {
-      // When the market is closed, ensure the calculations reflect the current time
+      
       this.unix_date = Math.floor(Date.now() / 1000);
       this.date_today_6 = this.curr_time.setHours(this.curr_time.getHours() - 6);
       this.unix_date_6 = Math.floor(this.date_today_6 / 1000);
@@ -524,7 +536,7 @@ export class SearchDetailsComponent implements OnInit {
   
 
 loadValuesForInsider(insiderData: any) {
-  // Resetting aggregated values
+  
   this.aggregatedInsiderData = {
     totalMspr: 0,
     positiveMspr: 0,
@@ -535,7 +547,7 @@ loadValuesForInsider(insiderData: any) {
   };
   const data = insiderData.data;
 
-  // Loop through the array of insider sentiments and aggregate values
+  
   data.forEach((sentiment: any) => {
     const mspr = sentiment.mspr;
     const change = sentiment.change;
@@ -631,27 +643,6 @@ loadValuesForInsider(insiderData: any) {
     return reqDate;
   }
 
-  loadDataForRecomChart(dataRecom: any) {
-    let strongBuy = [];
-    let buy = [];
-    let hold = [];
-    let sell = [];
-    let strongSell = [];
-    console.log('dataRecom>> ' + JSON.stringify(dataRecom));
-    for (let i = 0; i < dataRecom.length; i++) {
-      let tempStr = new String();
-      tempStr = dataRecom[i].period;
-      this.periodForRecomm.push(tempStr.substring(0, 7));
-      strongBuy.push(dataRecom[i].strongBuy);
-      buy.push(dataRecom[i].buy);
-      hold.push(dataRecom[i].hold);
-      sell.push(dataRecom[i].sell);
-      strongSell.push(dataRecom[i].strongSell);
-    }
-    this.dataForRecomm = [strongBuy, buy, hold, sell, strongSell];
-    
-  }
-
   
   openPortfolioBuy(portfolioModalBuy: any, stockDeal: any) {
     if (stockDeal === 'buy') {
@@ -701,11 +692,39 @@ loadValuesForInsider(insiderData: any) {
       );
   }
 
+
+  loadDataForRecomChart(dataRecom: any) {
+    
+    let recomPeriod: any[] = [];
+    let strongBuy: any[] = [];
+    let buy: any[] = [];
+    let hold: any[] = [];
+    let sell: any[] = [];
+    let strongSell: any[] = [];
+    
+    
+    dataRecom.forEach((item: { period: string; strongBuy: any; buy: any; hold: any; sell: any; strongSell: any; }) => {
+      
+      recomPeriod.push(item.period.substring(0, 7));
+      
+      
+      strongBuy.push(item.strongBuy);
+      buy.push(item.buy);
+      hold.push(item.hold);
+      sell.push(item.sell);
+      strongSell.push(item.strongSell);
+    });
+  
+    
+    this.recomPeriod = recomPeriod;
+    this.dataForRecomm = [strongBuy, buy, hold, sell, strongSell];
+  }
+  
   
 
-  chartForRecommendation() {
+  recomChart() {
     
-    console.log('recom pe>' + this.periodForRecomm);
+    
     this.chartOptions = {
       chart: { type: 'column' },
       title: {
@@ -715,7 +734,7 @@ loadValuesForInsider(insiderData: any) {
           color: '#29363E',
         },
       },
-      xAxis: { categories: this.periodForRecomm },
+      xAxis: { categories: this.recomPeriod },
       yAxis: {
         min: 0,
         title: { text: '#Analysis', align: 'high' },
@@ -794,39 +813,31 @@ loadValuesForInsider(insiderData: any) {
     };
   }
 
-  loadDataForHistoricalEPS(dataHistoric: any) {
+  loadEPSChartData(dataHistoric: any) {
     
     this.epsSurpriseDataX = [];
-    console.log('dataHistoric> ' + JSON.stringify(dataHistoric));
-    let actualData = [];
-    let estimateData = [];
+    let actualData: any[][] = [];
+    let estimateData: any[][] = [];
+  
     
-
-    for (let i = 0; i < dataHistoric.length; i++) {
-      let list1 = [
-        dataHistoric[i].period + ' Surprise:' + dataHistoric[i].surprise,
-        dataHistoric[i].actual,
-      ];
-      let list2 = [
-        dataHistoric[i].period + ' Surprise:' + dataHistoric[i].surprise,
-        dataHistoric[i].estimate,
-      ];
-      this.epsSurpriseDataX.push(
-        dataHistoric[i].period + ' Surprise:' + dataHistoric[i].surprise
-      );
+    dataHistoric.forEach((item: { period: any; surprise: any; actual: any; estimate: any; }) => {
       
-      actualData.push(list1);
-      estimateData.push(list2);
+      let label = `${item.period} Surprise: ${item.surprise}`;
       
-    }
-
+      
+      this.epsSurpriseDataX.push(label);
+      
+      
+      actualData.push([label, item.actual]);
+      estimateData.push([label, item.estimate]);
+    });
+  
     
-
     this.epsSurpriseDataY = [actualData, estimateData];
-    
   }
+  
 
-  chartForHistorical() {
+  EPSChart() {
     this.chartOptionsHistorical = {
       title: {
         text: 'Historical EPS Surprises',
