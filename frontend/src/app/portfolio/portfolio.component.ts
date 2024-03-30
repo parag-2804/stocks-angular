@@ -43,14 +43,14 @@ export class PortfolioComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // if (localStorage.getItem('moneyInWallet')) {
-    //   let money: any = localStorage.getItem('moneyInWallet')
-    //   this.moneyInWallet = parseFloat(money);
-    // }
-    
+    if (localStorage.getItem('moneyInWallet')) {
+      let money: any = localStorage.getItem('moneyInWallet')
+      this.moneyInWallet = parseFloat(money);
+    }
+    else{
       localStorage.setItem('moneyInWallet', "25000.00");
       this.moneyInWallet = localStorage.getItem('moneyInWallet')
-    
+    }
 
     // this.loadPortfolioStockData();
 
