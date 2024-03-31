@@ -18,7 +18,7 @@ import {
   NgbModalOptions,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
-  faTwitter,
+  faXTwitter,
   faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons';
 import { debounceTime } from 'rxjs/operators';
@@ -40,7 +40,7 @@ vbp(Highcharts);
   styleUrls: ['./search-details.component.css'],
 })
 export class SearchDetailsComponent implements OnInit {
-  faTwitter = faTwitter;
+  faXTwitter = faXTwitter;
   faFacebook = faFacebookSquare;
 
 
