@@ -57,7 +57,7 @@ export class SearchBarComponent implements OnInit {
           
           
           typedVal = value;
-          return this.service.getDataAutoComplete('autoComplete', value)
+          return this.service.getDataAutoComplete(value)
             .pipe(finalize(() => (this.isLoading = false)));
         }
         )

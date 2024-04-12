@@ -40,12 +40,11 @@ export class WatchlistComponent implements OnInit {
     console.log(item);
 
 
-    this.httpService.getData('companyDesc', item).subscribe(res => {
+    this.httpService.getcompanyDesc( item).subscribe(res => {
       this.companyDesc = res;
       ticker = this.companyDesc.ticker;
         name = this.companyDesc.name;
-
-        this.httpService.getData('stockPrice', item).subscribe(res => {
+        this.httpService.getstockPrice(item).subscribe(res => {
           this.stockPrice = res;
           if(this.stockPrice.dp > 0){
             flag = 1;

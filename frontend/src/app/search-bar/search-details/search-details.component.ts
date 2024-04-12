@@ -214,30 +214,29 @@ export class SearchDetailsComponent implements OnInit {
   }
 
   fetchAPICombined() {
-    let companyDesc = this.httpService.getData(
-      'companyDesc',
+    let companyDesc = this.httpService.getCompanyDesc(
       this.tickerSymbol
     );
-    let latestStockPrice = this.httpService.getData(
-      'stockPrice',
+    let latestStockPrice = this.httpService.getstockPrice(
+  
       this.tickerSymbol
     );
-    let companyPeers = this.httpService.getData(
-      'companyPeers',
+    let companyPeers = this.httpService.getcompanyPeers(
+
       this.tickerSymbol
     );
 
     this.timeManipulation();
 
     
-    let newsData = this.httpService.getData('companyNews', this.tickerSymbol);
-    let companyRecomm = this.httpService.getData(
-      'recommendation',
+    let newsData = this.httpService.getcompanyNews(this.tickerSymbol);
+    let companyRecomm = this.httpService.getrecommendation(
+  
       this.tickerSymbol
     );
     
-    let earnings = this.httpService.getData(
-      'companyEarnings',
+    let earnings = this.httpService.getcompanyEarnings(
+     
       this.tickerSymbol
     );
     this.spinner = true;
@@ -250,7 +249,7 @@ export class SearchDetailsComponent implements OnInit {
     this.spinner = true;
 
     this.httpService
-      .getData('companyDesc', this.tickerSymbol)
+      .getCompanyDesc(this.tickerSymbol)
       .subscribe((res) => {
         this.companyDesc = res;
         console.log('companyDesc> ' + JSON.stringify(res));
@@ -273,7 +272,7 @@ export class SearchDetailsComponent implements OnInit {
 
       
       this.httpService
-        .getData('stockPrice', this.tickerSymbol)
+        .getstockPrice(this.tickerSymbol)
         .subscribe((res) => {
           this.stockPrice = res;
           this.Current_Price = this.stockPrice.c;
@@ -293,7 +292,7 @@ export class SearchDetailsComponent implements OnInit {
         });
       
       this.httpService
-        .getData('companyNews', this.tickerSymbol)
+        .getcompanyNews(this.tickerSymbol)
         .subscribe((res) => {
           this.companyNews = res;
           this.loadDataForNews(this.companyNews);
@@ -301,7 +300,7 @@ export class SearchDetailsComponent implements OnInit {
         });
 
       this.httpService
-        .getData('recommendation', this.tickerSymbol)
+        .getrecommendation(this.tickerSymbol)
         .subscribe((res) => {
           this.recommendation = res;
           this.loadDataForRecomChart(this.recommendation);
@@ -314,13 +313,13 @@ export class SearchDetailsComponent implements OnInit {
           this.loadValuesForInsider(this.insiderSentiment);
         });
       this.httpService
-        .getData('companyPeers', this.tickerSymbol)
+        .getcompanyPeers(this.tickerSymbol)
         .subscribe((res) => {
           this.companyPeers = res;
         });
 
       this.httpService
-        .getData('companyEarnings', this.tickerSymbol)
+        .getcompanyEarnings( this.tickerSymbol)
         .subscribe((res) => {
           this.companyEarnings = res;
           this.loadEPSChartData(this.companyEarnings);
@@ -331,13 +330,13 @@ export class SearchDetailsComponent implements OnInit {
 
     this.fetchSubscribe = timer(0, 15000).subscribe(() => {
       this.httpService
-        .getData('companyDesc', this.tickerSymbol)
+        .getcompanyDesc(this.tickerSymbol)
         .subscribe((res) => {
           this.companyDesc = res;
         });
       
       this.httpService
-        .getData('stockPrice', this.tickerSymbol)
+        .getstockPrice(this.tickerSymbol)
         .subscribe((res) => {
           this.stockPrice = res;
           this.Current_Price = this.stockPrice.c;

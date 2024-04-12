@@ -97,14 +97,14 @@ export class PortfolioComponent implements OnInit {
         if (itemParsed.qty != null && itemParsed.amount != null) {
           console.log('ssssssss');
           console.log('JSON.parse(item).ticker>' + JSON.parse(item).ticker);
-          this.httpService.getData('companyDesc', itemParsed.ticker).subscribe(res => {
+          this.httpService.getcompanyDesc(itemParsed.ticker).subscribe(res => {
             this.companyDesc = res;
             console.log('resMe> '+JSON.stringify(res));
             this.cName = this.companyDesc.name;
             console.log('resMe> '+this.companyDesc.name);
 
             console.log('this.companyDescMap>' + JSON.stringify(this.companyDesc));
-            this.httpService.getData('stockPrice', JSON.parse(item).ticker).subscribe(res => {
+            this.httpService.getstockPrice( JSON.parse(item).ticker).subscribe(res => {
               console.log('resYouu> '+this.companyDesc.name);
               let tickerVal = itemParsed.ticker;
               let quantity = itemParsed.qty;
